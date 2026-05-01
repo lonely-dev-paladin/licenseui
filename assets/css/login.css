@@ -1,0 +1,173 @@
+/* =========================================================
+   BASE RESET (keep consistent with main.css)
+========================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --bg-color: #080808;
+    --second-bg-color: #101010;
+    --text-color: white;
+    --main-color: #ea580c;
+}
+
+/* =========================================================
+   LOGIN WRAPPER
+========================================================= */
+.loginPage {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    background: radial-gradient(circle, #4e1d03 5%, #200101);
+}
+
+/* optional soft glow background effect */
+.loginPage::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(56, 189, 248, 0.08);
+    filter: blur(120px);
+    border-radius: 50%;
+    top: -100px;
+    left: -100px;
+}
+
+/* =========================================================
+   LOGIN CARD (MATCH DASHBOARD STYLE)
+========================================================= */
+.loginCard {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: 380px;
+
+    padding: 32px;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+    text-align: center;
+
+    animation: fadeIn 0.5s ease;
+}
+
+/* title */
+.loginCard h2 {
+    margin-bottom: 18px;
+    font-size: 22px;
+    background: linear-gradient(270deg, #1F51FF 10%, #ff1d15 100%);
+    letter-spacing: 1px;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   INPUTS (MATCH DASHBOARD STYLE)
+========================================================= */
+.loginCard input {
+    width: 100%;
+    padding: 11px;
+    margin-top: 12px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: #020617;
+    color: white;
+
+    outline: none;
+    transition: 0.2s;
+}
+
+.loginCard input:focus {
+    border-color: #BC13FE;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
+}
+
+/* =========================================================
+   BUTTON (MATCH DASHBOARD STYLE)
+========================================================= */
+.loginCard button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 11px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(270deg, #1F51FF 10%, #ff1d15 100%);
+    color: white;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: 0.25s;
+    letter-spacing: 0.3px;
+    
+}
+
+.loginCard button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 480px) {
+    .loginCard {
+        padding: 22px;
+    }
+
+    .loginCard h2 {
+        font-size: 20px;
+    }
+}
+
+#message {
+    margin-top: 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.input-error {
+    border: 1px solid #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+    transition: 0.2s ease;
+}
+
+#message {
+    transition: opacity 0.3s ease;
+}

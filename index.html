@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <title>Fox Panel</title>
+</head>
+<body>
+
+
+<div class="app">
+
+    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <h2>ADMIN PANEL</h2>
+        <ul>
+            
+            <li onclick="showSection('dashboard')">DASHBOARD</li>
+            <li onclick="showSection('keys')">LICENSE KEYS</li>
+            <li onclick="showSection('users')">USERS</li>
+        </ul>
+
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <h1>LICENSE SYSTEM</h1>
+            <div id="message"></div>
+        </header>
+
+        <div class="section-container">
+
+            <!-- DASHBOARD -->
+            <section id="dashboard" class="section active">
+                <h2>Overview</h2>
+
+                <div class="cards">
+                    <div class="stat-card">
+                        <h3>Total</h3>
+                        <p id="stat_total">0</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>Active</h3>
+                        <p id="stat_active">0</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>Banned</h3>
+                        <p id="stat_banned">0</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3>Expired</h3>
+                        <p id="stat_expired">0</p>
+                    </div>
+                </div>
+
+                <button onclick="loadStats()">Refresh Stats</button>
+            </section>
+
+            <!-- KEYS -->
+            <section id="keys" class="section">
+                <h2>License Management</h2>
+
+                <div class="grid">
+
+                    <!-- GENERATE OR MANUAL KEY -->
+                    <div class="card">
+                        <h3>Generate Key</h3>
+
+                        <input id="add_key" placeholder="Generate or enter key">
+                        <input id="add_days" type="number" placeholder="Days (e.g. 30)">
+
+                        <button onclick="generateKey()">Randomizer</button>
+                        <button onclick="addKey()">Send to Database</button>
+                    </div>
+
+                    <!-- BAN / UNBAN -->
+                    <div class="card">
+                        <h3>Ban / Unban Key</h3>
+                        <input id="ban_key" placeholder="License Key">
+                        <button onclick="ban()">Ban</button>
+                        <button onclick="unban()">Unban</button>
+                    </div>
+
+                    <!-- EXTEND -->
+                    <div class="card">
+                        <h3>Extend Key</h3>
+                        <input id="ext_key" placeholder="License Key">
+                        <input id="ext_days" type="number" placeholder="Days">
+                        <button onclick="extend()">Extend</button>
+                    </div>
+
+                    <!-- DELETE -->
+                    <div class="card">
+                        <h3>Delete Key</h3>
+                        <input id="del_key" placeholder="License Key">
+                        <button onclick="del()">Delete</button>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- USERS -->
+        <section id="users" class="section">
+            <h2>ACTIVE LICENSES</h2>
+            <button onclick="loadUsers()">Refresh</button>
+            <div id="users_table"></div>
+        </section>
+
+    </main>
+
+</div>
+
+<!--scripts-->
+<script src="assets/js/api.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/cosmetics.js"></script>
+
+<script>
+    function showSection(id) {
+        document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+    }
+</script>
+
+</body>
+</html>

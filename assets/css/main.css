@@ -1,0 +1,378 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: "poppins", sans-serif;
+}
+
+:root {
+    --bg-color: #080808;
+    --second-bg-color: #101010;
+    --text-color: white;
+    --main-color: #ea580c;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    overflow-x: hidden;
+    margin: 0;
+}
+
+/* =========================================================
+   BASE STYLES
+========================================================= */
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* =========================================================
+   APP LAYOUT
+========================================================= */
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================================
+   SIDEBAR (DESKTOP BASE)
+========================================================= */
+.sidebar {
+    width: 230px;
+    background: var(--second-bg-color);
+    padding: 22px;
+    border-right: 1px solid rgba(56,189,248,0.15);
+    transition: transform 0.3s ease;
+}
+
+.sidebar h2, h1 {
+    margin-bottom: 25px;
+    font-size: 20px;
+    background: linear-gradient(270deg, #1F51FF 10%, #ff1d15 100%);
+    letter-spacing: 1px;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sidebar li {
+    padding: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.25s;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: 0.3s ease-in-out;
+    letter-spacing: 0.1em;
+}
+
+.sidebar li:hover {
+    background: linear-gradient(170deg, #1F51FF 10%, #ff1d15 100%);
+    transform: translateX(4px);
+    color: var(--text-color);
+}
+
+/* =========================================================
+   MAIN AREA
+========================================================= */
+.main {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+}
+
+/* TOPBAR */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.topbar h1 {
+    font-size: 26px;
+    letter-spacing: 0.5px;
+}
+
+/* MESSAGE */
+#message {
+    font-size: 14px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 1.5rem 0 1rem;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(14px);
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: 0.25s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(56,189,248,0.5);
+    box-shadow: 0 10px 30px rgba(56,189,248,0.1);
+}
+
+.stat-card h3 {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.stat-card p {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 6px;
+    color: #38bdf8;
+}
+
+/* =========================================================
+   GRID CARDS
+========================================================= */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 1.5rem;
+}
+
+.card {
+    background: rgba(255,255,255,0.04);
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(14px);
+    transition: 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99,102,241,0.4);
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+input {
+    width: 100%;
+    padding: 11px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    outline: none;
+    background: #020617;
+    color: white;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 2px rgba(56,189,248,0.15);
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+button {
+    margin-top: 10px;
+    padding: 11px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(
+    90deg,
+    #1F51FF 10%, 
+    #ff1d15 100%
+    );
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+    letter-spacing: 0.3px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99,102,241,0.25);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: rgba(56,189,248,0.08);
+    color: #38bdf8;
+}
+
+tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#38bdf8, #6366f1);
+    border-radius: 10px;
+}
+
+/* =========================================================
+   SIDEBAR DRAWER (MOBILE)
+========================================================= */
+@media (max-width: 768px) {
+
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 260px;
+        transform: translateX(-100%);
+        z-index: 1000;
+        box-shadow: 10px 0 30px rgba(0,0,0,0.4);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px;
+    }
+}
+
+/* =========================================================
+   MENU BUTTON
+========================================================= */
+
+body.menu-open .menu-toggle {
+    display: none;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #38bdf8;
+
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1100;
+}
+
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .topbar {
+        position: relative;
+        padding-left: 55px; /* space reserved for hamburger */
+    }
+}
+/* =========================================================
+   OVERLAY
+========================================================= */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 900;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* =========================================================
+   USERS TABLE
+========================================================= */
+#users_table {
+    overflow-x: auto;
+}
+
+/*LOGOUT BUTTON*/
+.logout-btn {
+    width: auto;
+    padding: 8px 14px;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
+}
