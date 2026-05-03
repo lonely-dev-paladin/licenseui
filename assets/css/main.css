@@ -9,6 +9,7 @@
 :root {
     --bg-color: #080808;
     --second-bg-color: #101010;
+    --this-bg-color: #313178;
     --text-color: white;
     --main-color: #ea580c;
 }
@@ -44,6 +45,7 @@ body {
    SIDEBAR (DESKTOP BASE)
 ========================================================= */
 .sidebar {
+    position: relative;
     width: 230px;
     background: var(--second-bg-color);
     padding: 22px;
@@ -76,6 +78,36 @@ body {
     background: linear-gradient(170deg, #1F51FF 10%, #ff1d15 100%);
     transform: translateX(4px);
     color: var(--text-color);
+}
+
+/*==========================================================
+  SOCIALS
+==========================================================*/
+.social-icons {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: -1rem 1rem;
+}
+
+.social-icons a {
+    background-color: #ff1d15;
+    border: 2px solid #ff1d15;
+    border-radius: 50%;
+    color: #111;
+    font-size: 1.5rem;
+    margin: 3rem 0.5rem;
+    transition: 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+    color: var(--text-color);
+    background-color: #ff1d15;
+    transform: scale(1.2) translateY(-5px);
+    box-shadow:  0 0 25px var(--text-color);
 }
 
 /* =========================================================
