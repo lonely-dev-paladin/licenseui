@@ -1,4 +1,5 @@
-const API = "https://license-system-e71k.onrender.com";
+/*const API = "https://license-system-e71k.onrender.com";   remove the quote when uploading to database*/ 
+const API = "http://127.0.0.1:5000"; /*COMMENT THIS WHEN UPDATING DB*/
 
 function headers() {
     return {
