@@ -4,21 +4,17 @@
 
 function showMessage(msg, type = "success") {
     const box = document.getElementById("message");
-
-    // safety check (VERY IMPORTANT)
     if (!box) return;
 
     box.innerText = msg;
-    box.style.padding = "10px";
-    box.style.margin = "10px 0";
-    box.style.borderRadius = "6px";
-    box.style.color = "white";
+
     box.style.background = (type === "success") ? "#22c55e" : "#ef4444";
 
-    setTimeout(() => {
-        box.innerText = "";
-        box.style.padding = "0";
-        box.style.background = "transparent";
+    box.classList.add("show");
+
+    clearTimeout(box._timeout);
+    box._timeout = setTimeout(() => {
+        box.classList.remove("show");
     }, 2500);
 }
 
@@ -61,22 +57,35 @@ function renderUsers(data) {
             <th>Bound Device</th>
             <th>Status</th>
             <th>Banned</th>
-            <th>Days Left</th>
+            <th>Time Left</th>
+            <th>State</th>
         </tr>
     `;
 
     data.users.forEach(u => {
         html += `
         <tr>
-            <td>${u.license_key}</td>
+            <td class="key-cell"> ${u.license_key}<span class="copy-icon" onClick="copyKey('${u.license_key}')"> &#10064; </span></td>
             <td>${u.bound_device}</td>
             <td>${u.status}</td>
             <td>${u.banned}</td>
-            <td>${u.days_left}</td>
+            <td>${u.time_left}</td>
+            <td>${u.state}</td>
         </tr>
         `;
     });
 
     html += `</table>`;
     container.innerHTML = html;
+}
+
+//COPY FUNCTION
+function copyKey(key) {
+    navigator.clipboard.writeText(key)
+        .then(() => {
+            showMessage("Copied to clipboard!", "success");
+        })
+        .catch(() => {
+            showMessage("Failed to copy", "error");
+        });
 }
