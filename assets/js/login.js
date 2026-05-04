@@ -39,9 +39,11 @@ async function login() {
     }
 }
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    login();
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        login();
+    });
 });
 
 //HELPER FOR GLOW
