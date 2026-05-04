@@ -23,7 +23,7 @@ async function addKey() {
 }
 
 // =========================
-// GENERATE KEY
+// KEY GENERATOR
 // =========================
 function generateKey() {
     const key =
