@@ -117,6 +117,6 @@ Example:
 - Keep functions small and reusable
 
 - Addditionals (use to update or push in terminal)
-  git add .
-  git commit -m "update"
-  git push
+- git add .
+- git commit -m "update"
+- git push
