@@ -17,28 +17,86 @@
     <title>Fox Panel Login</title>
 </head>
 <body>
-        <!--LOGIN PAGE-->
-        <div id="loginPage" class="loginPage">
-            <div class="loginCard">
-                <h2>Admin Login</h2>
 
-                <form id="loginForm" action="">
-                    <input id="username" type="text" placeholder="Username">
-                    <input id="password" type="password" placeholder="Password">
+<!-- =========================
+     LOGIN VIEW
+========================= -->
+<div id="loginView" class="loginPage">
+    <div class="loginCard">
+        <h2>Admin Login</h2>
 
-                    <button type="submit">Login</button>
-                </form>
+        <form id="loginForm">
+            <input id="username" type="text" placeholder="Username">
+            <input id="password" type="password" placeholder="Password">
 
-                <div id="message"></div>
-                <div class="copyright">
-                    © 2026 Queen. All rights reserved.
-                </div>
-            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <div id="message"></div>
+
+        <p style="margin-top: 12px; font-size: 12px; color: #aaa;">
+            Developer?
+            <a href="#" id="openSuperadminLogin">Create admin instead</a>
+        </p>
+
+        <div class="copyright">
+            © 2026 Queen. All rights reserved.
+        </div>
+    </div>
+</div>
+
+<!-- =========================
+     SUPERADMIN LOGIN VIEW
+========================= -->
+<div id="superadminLoginView" class="loginPage" style="display:none;">
+    <div class="loginCard">
+        <h2>Superadmin Login</h2>
+
+        <input id="saUsername" type="text" placeholder="Username">
+        <input id="saPassword" type="password" placeholder="Password">
+
+        <div class="buttonGroup">
+            <button id="superadminLoginBtn">Login</button>
+            <button class="textButton" id="backToLogin">Back</button>
         </div>
 
-    <script src="assets/js/api.js"></script>
-    <script src="assets/js/login.js"></script>
-    <script src="assets/js/ui.js"></script>
+        <p id="saLoginMsg"></p>
+    </div>
+</div>
+
+<!-- =========================
+     CREATE ADMIN VIEW
+========================= -->
+<div id="createAdminView" class="loginPage" style="display:none;">
+    <div class="loginCard">
+        <h2>Create Admin</h2>
+
+        <input id="newAdminUser" type="text" placeholder="Username">
+        <input id="newAdminPass" type="password" placeholder="Password">
+
+        <div class="formGroup">
+            <label for="newAdminRole">Role</label>
+            <select id="newAdminRole">
+                <option value="admin">Admin</option>
+                <option value="moderator">Moderator</option>
+            </select>
+        </div>
+
+        <div class="buttonGroup">
+            <button id="createAdminBtn">Create</button>
+            <button class="dangerButton" id="logoutSuperadmin">Logout</button>
+        </div>
+
+        <p id="createMsg"></p>
+    </div>
+</div>
+
+<!-- =========================
+     SCRIPTS
+========================= -->
+<script src="assets/js/api.js"></script>
+<script src="assets/js/login.js"></script>
+<script src="assets/js/ui.js"></script>
 
 </body>
 </html>
