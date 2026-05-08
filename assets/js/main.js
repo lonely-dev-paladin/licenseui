@@ -117,6 +117,23 @@ async function loadUsers() {
 }
 
 // =========================
+// ADMIN CONTEXT
+// =========================
+async function loadAdminContext() {
+    const res = await getMeAPI();
+
+    if (!res) return; // handled by safeFetch (redirects if needed)
+
+    const data = await res.json();
+
+    document.getElementById("adminName").innerText =
+        "Logged in as: " + data.user;
+
+    document.getElementById("adminRole").innerText =
+        "Role: " + data.role.charAt(0).toUpperCase() + data.role.slice(1);
+}
+
+// =========================
 // LOGOUT
 // =========================
 async function logout() {
@@ -153,3 +170,7 @@ window.loadStats = loadStats;
 window.loadUsers = loadUsers;
 
 window.logout = logout;
+
+document.addEventListener("DOMContentLoaded", () => {
+   loadAdminContext(); //load admin context as you can see
+});

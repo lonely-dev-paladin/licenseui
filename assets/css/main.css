@@ -81,6 +81,35 @@ body {
 }
 
 /*==========================================================
+SIDEBAR USER INFO
+============================================================*/
+.sidebar-user {
+    margin: 10px 0 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px);
+}
+
+.sidebar-user .label {
+    font-size: 11px;
+    opacity: 0.6;
+    margin: 0;
+}
+
+.sidebar-user .username {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.sidebar-user .role {
+    font-size: 12px;
+    color: #00ff99;
+    margin: 0;
+}
+
+/*==========================================================
   SOCIALS
 ==========================================================*/
 .social-icons {
@@ -467,4 +496,35 @@ body.menu-open .menu-toggle {
     background: rgba(239, 68, 68, 0.2);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
+}
+
+/* ===============
+ADMIN CONTEXT
+================== */
+.admin-context {
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 13px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.admin-context p {
+    margin: 4px 0;
+    color: #ccc;
+}
+
+.admin-context p:first-child {
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Mobile tweak */
+@media (max-width: 768px) {
+    .admin-context {
+        font-size: 12px;
+        padding: 8px;
+    }
 }

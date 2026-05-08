@@ -81,6 +81,13 @@ async function getUsersAPI() {
     return safeFetch(API + "/users", { headers: headers() });
 }
 
+//ADMIN CONTEXT
+async function getMeAPI() {
+    return safeFetch(API + "/me", {
+        headers: headers()
+    });
+}
+
 // LOGOUT
 async function logout() {
     localStorage.removeItem("token");
