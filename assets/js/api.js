@@ -1,5 +1,5 @@
-const API = "https://license-system-e71k.onrender.com"; /*  remove comment when uploading to database*/ 
-/*const API = "http://127.0.0.1:5000"; /* use for local testing bago i-push sa db*/
+/*const API = "https://license-system-e71k.onrender.com"; /*  remove comment when uploading to database*/ 
+const API = "http://127.0.0.1:5000"; /* use for local testing bago i-push sa db*/
 
 function headers() {
     return {
