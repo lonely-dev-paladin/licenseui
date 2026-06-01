@@ -1,4 +1,4 @@
-const API = "https://license-system-e71k.onrender.com"; /*  remove comment when uploading to database*/ 
+const API = "https://license-system-e71k.onrender.com"; /*  remove comment when uploading to database*/
 /*const API = "http://127.0.0.1:5000"; /* use for local testing bago i-push sa db*/
 
 function headers() {
@@ -86,10 +86,4 @@ async function getMeAPI() {
     return safeFetch(API + "/me", {
         headers: headers()
     });
-}
-
-// LOGOUT
-async function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "login.html";
 }
