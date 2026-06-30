@@ -34,6 +34,7 @@
   <body>
     <div class="app">
       <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+      <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
       <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
@@ -88,22 +89,22 @@
             <h2>Overview</h2>
 
             <div class="cards">
-              <div class="stat-card">
+              <div class="stat-card stat-neutral">
                 <h3>Total</h3>
                 <p id="stat_total">0</p>
               </div>
 
-              <div class="stat-card">
+              <div class="stat-card stat-success">
                 <h3>Active</h3>
                 <p id="stat_active">0</p>
               </div>
 
-              <div class="stat-card">
+              <div class="stat-card stat-danger">
                 <h3>Banned</h3>
                 <p id="stat_banned">0</p>
               </div>
 
-              <div class="stat-card">
+              <div class="stat-card stat-warning">
                 <h3>Expired</h3>
                 <p id="stat_expired">0</p>
               </div>
@@ -129,15 +130,17 @@
                 />
 
                 <button onclick="generateKey()">Generate</button>
-                <button onclick="addKey()">Send to Database</button>
+                <button class="btn-primary" onclick="addKey()">
+                  Send to Database
+                </button>
               </div>
 
               <!-- BAN / UNBAN -->
               <div class="card">
                 <h3>Ban / Unban Key</h3>
                 <input id="ban_key" placeholder="License Key" />
-                <button onclick="ban()">Ban</button>
-                <button onclick="unban()">Unban</button>
+                <button class="btn-danger" onclick="ban()">Ban</button>
+                <button class="btn-primary" onclick="unban()">Unban</button>
               </div>
 
               <!-- EXTEND -->
@@ -145,14 +148,14 @@
                 <h3>Extend Key</h3>
                 <input id="ext_key" placeholder="License Key" />
                 <input id="ext_days" type="number" placeholder="Days" />
-                <button onclick="extend()">Extend</button>
+                <button class="btn-primary" onclick="extend()">Extend</button>
               </div>
 
               <!-- DELETE -->
               <div class="card">
                 <h3>Delete Key</h3>
                 <input id="del_key" placeholder="License Key" />
-                <button onclick="del()">Delete</button>
+                <button class="btn-danger" onclick="del()">Delete</button>
               </div>
             </div>
           </section>
@@ -179,6 +182,27 @@
           .querySelectorAll(".section")
           .forEach((s) => s.classList.remove("active"));
         document.getElementById(id).classList.add("active");
+      }
+
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+        document.getElementById("overlay").classList.toggle("active");
+        document.body.classList.toggle("menu-open");
+      }
+
+      /*
+        Example status badge generator for the users table.
+        Use like: statusBadge("active") -> '<span class="badge badge-success">Active</span>'
+        Status can be "active", "banned", or "expired".
+      */
+      function statusBadge(status) {
+        const map = {
+          active: ["badge-success", "Active"],
+          banned: ["badge-danger", "Banned"],
+          expired: ["badge-warning", "Expired"],
+        };
+        const [cls, label] = map[status] || ["badge-neutral", status];
+        return `<span class="badge ${cls}"><span class="badge-dot"></span>${label}</span>`;
       }
     </script>
 

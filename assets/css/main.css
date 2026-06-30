@@ -16,6 +16,11 @@
     --cyan: #00f7ff;
     --pink: #ff008c;
     --purple: #8b5cf6;
+
+    --success: #00ffbf;
+    --danger: #ff4d6d;
+    --warning: #ffb347;
+    --neutral: #00f7ff;
 }
 
 ul {
@@ -81,6 +86,7 @@ h1 {
         #ff00c8 60%,
         #8b5cf6 100%
     );
+    background-size: 200% auto;
 
     letter-spacing: 2px;
 
@@ -90,6 +96,14 @@ h1 {
     text-shadow:
         0 0 12px rgba(0,247,255,0.25),
         0 0 24px rgba(255,0,200,0.2);
+
+    animation: gradientShift 6s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
 }
 
 .sidebar li {
@@ -185,7 +199,8 @@ SIDEBAR USER INFO
     display: flex;
     justify-content: space-evenly;
 
-    padding: -1rem 1rem;
+    margin: -1rem 0 0;
+    padding: 1rem;
 }
 
 .social-icons a {
@@ -287,6 +302,21 @@ SIDEBAR USER INFO
     transform: translateX(-50%) translateY(0);
 }
 
+/* status-aware message variants -- add class "error" or "success" in JS */
+#message.success {
+    border-color: rgba(0,255,191,0.35);
+    box-shadow:
+        0 0 20px rgba(0,255,191,0.12),
+        0 10px 25px rgba(0,0,0,0.45);
+}
+
+#message.error {
+    border-color: rgba(255,77,109,0.4);
+    box-shadow:
+        0 0 20px rgba(255,77,109,0.15),
+        0 10px 25px rgba(0,0,0,0.45);
+}
+
 /* =========================================================
    SECTIONS
 ========================================================= */
@@ -352,6 +382,47 @@ SIDEBAR USER INFO
 
     text-shadow:
         0 0 10px rgba(0,247,255,0.35);
+}
+
+/* status-specific stat-card colors */
+.stat-card.stat-success p {
+    color: var(--success);
+    text-shadow: 0 0 10px rgba(0,255,191,0.35);
+}
+
+.stat-card.stat-success:hover {
+    border-color: rgba(0,255,191,0.3);
+    box-shadow:
+        0 0 25px rgba(0,255,191,0.1),
+        0 0 45px rgba(0,255,191,0.05);
+}
+
+.stat-card.stat-danger p {
+    color: var(--danger);
+    text-shadow: 0 0 10px rgba(255,77,109,0.4);
+}
+
+.stat-card.stat-danger:hover {
+    border-color: rgba(255,77,109,0.3);
+    box-shadow:
+        0 0 25px rgba(255,77,109,0.12),
+        0 0 45px rgba(255,77,109,0.06);
+}
+
+.stat-card.stat-warning p {
+    color: var(--warning);
+    text-shadow: 0 0 10px rgba(255,179,71,0.4);
+}
+
+.stat-card.stat-warning:hover {
+    border-color: rgba(255,179,71,0.3);
+    box-shadow:
+        0 0 25px rgba(255,179,71,0.12),
+        0 0 45px rgba(255,179,71,0.06);
+}
+
+.stat-card.stat-neutral p {
+    color: var(--neutral);
 }
 
 /* =========================================================
@@ -462,6 +533,43 @@ button:hover {
         0 0 30px rgba(255,0,140,0.12);
 }
 
+/* "safe" actions -- generate, send, extend, unban */
+button.btn-primary {
+    border-color: rgba(0,255,191,0.25);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,255,191,0.14),
+            rgba(0,247,255,0.16)
+        );
+    box-shadow: 0 0 15px rgba(0,255,191,0.06);
+}
+
+button.btn-primary:hover {
+    box-shadow:
+        0 0 18px rgba(0,255,191,0.16),
+        0 0 30px rgba(0,247,255,0.1);
+}
+
+/* destructive actions -- ban, delete */
+button.btn-danger {
+    border-color: rgba(255,77,109,0.3);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,77,109,0.16),
+            rgba(255,0,140,0.18)
+        );
+    color: #ffd1da;
+    box-shadow: 0 0 15px rgba(255,77,109,0.08);
+}
+
+button.btn-danger:hover {
+    box-shadow:
+        0 0 18px rgba(255,77,109,0.2),
+        0 0 30px rgba(255,0,140,0.12);
+}
+
 /* =========================================================
    TABLE
 ========================================================= */
@@ -498,6 +606,74 @@ th {
 
 tr:hover {
     background: rgba(255,255,255,0.04);
+}
+
+/*==========================================================
+STATUS BADGES (for users table)
+==========================================================*/
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.badge-success {
+    background: rgba(0,255,191,0.1);
+    color: var(--success);
+    border: 1px solid rgba(0,255,191,0.25);
+}
+
+.badge-success .badge-dot {
+    background: var(--success);
+    box-shadow: 0 0 8px rgba(0,255,191,0.7);
+}
+
+.badge-danger {
+    background: rgba(255,77,109,0.1);
+    color: var(--danger);
+    border: 1px solid rgba(255,77,109,0.25);
+}
+
+.badge-danger .badge-dot {
+    background: var(--danger);
+    box-shadow: 0 0 8px rgba(255,77,109,0.7);
+}
+
+.badge-warning {
+    background: rgba(255,179,71,0.1);
+    color: var(--warning);
+    border: 1px solid rgba(255,179,71,0.25);
+}
+
+.badge-warning .badge-dot {
+    background: var(--warning);
+    box-shadow: 0 0 8px rgba(255,179,71,0.7);
+}
+
+.badge-neutral {
+    background: rgba(0,247,255,0.1);
+    color: var(--neutral);
+    border: 1px solid rgba(0,247,255,0.25);
+}
+
+.badge-neutral .badge-dot {
+    background: var(--neutral);
+    box-shadow: 0 0 8px rgba(0,247,255,0.7);
 }
 
 /*==========================================================
