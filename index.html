@@ -34,7 +34,6 @@
   <body>
     <div class="app">
       <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
-      <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
       <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
@@ -184,11 +183,8 @@
         document.getElementById(id).classList.add("active");
       }
 
-      function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("open");
-        document.getElementById("overlay").classList.toggle("active");
-        document.body.classList.toggle("menu-open");
-      }
+      /* toggleSidebar() is already defined in assets/js/cosmetics.js,
+         which also handles click-outside-to-close. No need to redefine it here. */
 
       /*
         Example status badge generator for the users table.
