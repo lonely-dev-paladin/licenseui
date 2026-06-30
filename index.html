@@ -184,22 +184,8 @@
       }
 
       /* toggleSidebar() is already defined in assets/js/cosmetics.js,
-         which also handles click-outside-to-close. No need to redefine it here. */
-
-      /*
-        Example status badge generator for the users table.
-        Use like: statusBadge("active") -> '<span class="badge badge-success">Active</span>'
-        Status can be "active", "banned", or "expired".
-      */
-      function statusBadge(status) {
-        const map = {
-          active: ["badge-success", "Active"],
-          banned: ["badge-danger", "Banned"],
-          expired: ["badge-warning", "Expired"],
-        };
-        const [cls, label] = map[status] || ["badge-neutral", status];
-        return `<span class="badge ${cls}"><span class="badge-dot"></span>${label}</span>`;
-      }
+         which also handles click-outside-to-close. No need to redefine it here.
+         statusBadge() is defined in assets/js/ui.js and used by renderUsers(). */
     </script>
 
     <!--MESSAGE-->

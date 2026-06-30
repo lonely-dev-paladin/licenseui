@@ -8,7 +8,10 @@ function showMessage(msg, type = "success") {
 
     box.innerText = msg;
 
-    box.style.background = (type === "success") ? "#22c55e" : "#ef4444";
+    // use the CSS-defined success/error variants instead of inline colors,
+    // so the toast matches the rest of the neon/glow theme
+    box.classList.remove("success", "error");
+    box.classList.add(type === "success" ? "success" : "error");
 
     box.classList.add("show");
 
@@ -40,13 +43,33 @@ function renderStats(data) {
 }
 
 // =========================
+// STATUS BADGE HELPER
+// =========================
+// Maps a raw status string to the .badge markup defined in main.css.
+// Falls back to a neutral badge for unrecognized values instead of breaking.
+function statusBadge(status) {
+    const key = String(status).toLowerCase();
+
+    const map = {
+        active: ["badge-success", "Active"],
+        banned: ["badge-danger", "Banned"],
+        expired: ["badge-warning", "Expired"],
+        true: ["badge-danger", "Banned"],
+        false: ["badge-success", "Not Banned"],
+    };
+
+    const [cls, label] = map[key] || ["badge-neutral", status];
+    return `<span class="badge ${cls}"><span class="badge-dot"></span>${label}</span>`;
+}
+
+// =========================
 // USERS UI
 // =========================
 function renderUsers(data) {
     const container = document.getElementById("users_table");
 
     if (!data.users) {
-        container.innerHTML = "<p style='color:red'>No data found</p>";
+        container.innerHTML = "<p style='color:var(--danger)'>No data found</p>";
         return;
     }
 
@@ -67,8 +90,8 @@ function renderUsers(data) {
         <tr>
             <td class="key-cell"> ${u.license_key}<span class="copy-icon" onClick="copyKey('${u.license_key}')"> &#10064; </span></td>
             <td>${u.bound_device}</td>
-            <td>${u.status}</td>
-            <td>${u.banned}</td>
+            <td>${statusBadge(u.status)}</td>
+            <td>${statusBadge(u.banned)}</td>
             <td>${u.time_left}</td>
             <td>${u.state}</td>
         </tr>
