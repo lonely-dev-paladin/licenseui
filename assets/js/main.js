@@ -145,7 +145,7 @@ async function loadAuditLog() {
 }
 
 async function clearAuditLog() {
-    const confirmed = confirm(
+    const confirmed = await showConfirm(
         "Clear your entire audit log? This cannot be undone."
     );
     if (!confirmed) return;

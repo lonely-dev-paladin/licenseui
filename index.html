@@ -181,18 +181,18 @@
         <!-- USERS -->
         <section id="users" class="section">
           <h2>ACTIVE LICENSES</h2>
-          <div id="users_table"></div>
           <button onclick="loadUsers()">Refresh</button>
+          <div id="users_table"></div>
         </section>
 
         <!-- AUDIT LOG -->
         <section id="audit" class="section">
           <h2>AUDIT LOG</h2>
-          <div id="audit_table"></div>
           <button onclick="loadAuditLog()">Refresh</button>
           <button class="btn-danger" onclick="clearAuditLog()">
             Clear Log
           </button>
+          <div id="audit_table"></div>
         </section>
       </main>
     </div>
@@ -218,5 +218,16 @@
 
     <!--MESSAGE-->
     <div id="message"></div>
+
+    <!--CONFIRM MODAL-->
+    <div id="confirm-overlay" class="confirm-overlay" hidden>
+      <div class="confirm-card">
+        <p id="confirm-text">Are you sure?</p>
+        <div class="confirm-actions">
+          <button id="confirm-cancel" class="textButton">Cancel</button>
+          <button id="confirm-ok" class="btn-danger">Confirm</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

@@ -155,4 +155,43 @@ function copyKey(key) {
         });
 }
 
+// =========================
+// CONFIRM MODAL
+// =========================
+// Themed replacement for the native confirm() popup.
+// Usage: if (await showConfirm("Delete this key?")) { ...do the thing... }
+function showConfirm(message) {
+    const overlay = document.getElementById("confirm-overlay");
+    const text = document.getElementById("confirm-text");
+    const okBtn = document.getElementById("confirm-ok");
+    const cancelBtn = document.getElementById("confirm-cancel");
+
+    if (!overlay) return Promise.resolve(window.confirm(message)); // fallback
+
+    text.innerText = message;
+    overlay.hidden = false;
+    requestAnimationFrame(() => overlay.classList.add("show"));
+
+    return new Promise(resolve => {
+        function cleanup(result) {
+            overlay.classList.remove("show");
+            setTimeout(() => { overlay.hidden = true; }, 200);
+            okBtn.removeEventListener("click", onOk);
+            cancelBtn.removeEventListener("click", onCancel);
+            overlay.removeEventListener("click", onOverlayClick);
+            resolve(result);
+        }
+
+        function onOk() { cleanup(true); }
+        function onCancel() { cleanup(false); }
+        function onOverlayClick(e) {
+            if (e.target === overlay) cleanup(false);
+        }
+
+        okBtn.addEventListener("click", onOk);
+        cancelBtn.addEventListener("click", onCancel);
+        overlay.addEventListener("click", onOverlayClick);
+    });
+}
+
 //ui.js
