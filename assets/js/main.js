@@ -144,6 +144,20 @@ async function loadAuditLog() {
     renderAuditLog(data);
 }
 
+async function clearAuditLog() {
+    const confirmed = confirm(
+        "Clear your entire audit log? This cannot be undone."
+    );
+    if (!confirmed) return;
+
+    const res = await clearAuditLogAPI();
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    loadAuditLog();
+}
+
 // =========================
 // ADMIN CONTEXT
 // =========================
@@ -198,6 +212,7 @@ window.resetDevice = resetDevice;
 window.loadStats = loadStats;
 window.loadUsers = loadUsers;
 window.loadAuditLog = loadAuditLog;
+window.clearAuditLog = clearAuditLog;
 
 window.logout = logout;
 

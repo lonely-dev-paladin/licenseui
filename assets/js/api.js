@@ -95,6 +95,14 @@ async function getAuditLogAPI(limit = 100) {
     return safeFetch(API + `/audit-log?limit=${limit}`, { headers: headers() });
 }
 
+// wipes the current admin's own audit history
+async function clearAuditLogAPI() {
+    return safeFetch(API + "/audit-log", {
+        method: "DELETE",
+        headers: headers()
+    });
+}
+
 //ADMIN CONTEXT
 async function getMeAPI() {
     return safeFetch(API + "/me", {
