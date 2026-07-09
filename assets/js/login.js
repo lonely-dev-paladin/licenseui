@@ -244,3 +244,5 @@ document.getElementById("logoutSuperadmin")?.addEventListener("click", e => {
 
     showView("loginView");
 });
+
+//login.js

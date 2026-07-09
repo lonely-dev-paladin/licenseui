@@ -81,6 +81,22 @@ async function extend() {
 }
 
 // =========================
+// RESET DEVICE
+// =========================
+async function resetDevice() {
+    const key = get("reset_key");
+
+    if (!key) return showMessage("License key is required", "error");
+
+    const res = await resetDeviceAPI(key);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    loadUsers();
+}
+
+// =========================
 // DELETE
 // =========================
 async function del() {
@@ -114,6 +130,18 @@ async function loadUsers() {
     const data = await res.json();
 
     renderUsers(data);
+}
+
+// =========================
+// AUDIT LOG
+// =========================
+async function loadAuditLog() {
+    if (!localStorage.getItem("token")) return;
+
+    const res = await getAuditLogAPI(200);
+    const data = await res.json();
+
+    renderAuditLog(data);
 }
 
 // =========================
@@ -165,12 +193,16 @@ window.ban = ban;
 window.unban = unban;
 window.extend = extend;
 window.del = del;
+window.resetDevice = resetDevice;
 
 window.loadStats = loadStats;
 window.loadUsers = loadUsers;
+window.loadAuditLog = loadAuditLog;
 
 window.logout = logout;
 
 document.addEventListener("DOMContentLoaded", () => {
-   loadAdminContext(); //load admin context as you can see
+    loadAdminContext(); //load admin context as you can see
 });
+
+// main.js

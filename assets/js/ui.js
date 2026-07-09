@@ -102,6 +102,48 @@ function renderUsers(data) {
     container.innerHTML = html;
 }
 
+// =========================
+// AUDIT LOG UI
+// =========================
+function renderAuditLog(data) {
+    const container = document.getElementById("audit_table");
+    if (!container) return;
+
+    if (!data.entries || !data.entries.length) {
+        container.innerHTML =
+            "<p style='color:var(--text-color); opacity:0.6;'>No actions logged yet.</p>";
+        return;
+    }
+
+    let html = `
+        <table>
+        <tr>
+            <th>When</th>
+            <th>Admin</th>
+            <th>Action</th>
+            <th>Target</th>
+            <th>Details</th>
+        </tr>
+    `;
+
+    data.entries.forEach(e => {
+        const when = new Date(e.created_at).toLocaleString();
+
+        html += `
+        <tr>
+            <td>${when}</td>
+            <td>${e.username}</td>
+            <td><span class="badge badge-neutral"><span class="badge-dot"></span>${e.action}</span></td>
+            <td>${e.target || "—"}</td>
+            <td>${e.details || "—"}</td>
+        </tr>
+        `;
+    });
+
+    html += `</table>`;
+    container.innerHTML = html;
+}
+
 //COPY FUNCTION
 function copyKey(key) {
     navigator.clipboard.writeText(key)
@@ -112,3 +154,5 @@ function copyKey(key) {
             showMessage("Failed to copy", "error");
         });
 }
+
+//ui.js

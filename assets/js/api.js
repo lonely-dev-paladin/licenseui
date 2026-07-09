@@ -73,6 +73,15 @@ async function deleteAPI(key) {
     });
 }
 
+// unbind a license from its currently bound device (new backend endpoint)
+async function resetDeviceAPI(key) {
+    return safeFetch(API + "/reset-device", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ license_key: key })
+    });
+}
+
 async function getStatsAPI() {
     return safeFetch(API + "/stats", { headers: headers() });
 }
@@ -81,9 +90,16 @@ async function getUsersAPI() {
     return safeFetch(API + "/users", { headers: headers() });
 }
 
+// history of admin actions (ban/unban/extend/delete/create/reset-device)
+async function getAuditLogAPI(limit = 100) {
+    return safeFetch(API + `/audit-log?limit=${limit}`, { headers: headers() });
+}
+
 //ADMIN CONTEXT
 async function getMeAPI() {
     return safeFetch(API + "/me", {
         headers: headers()
     });
 }
+
+//api.js
