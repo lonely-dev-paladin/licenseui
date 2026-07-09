@@ -10,10 +10,11 @@ if (!localStorage.getItem("token")) {
 async function addKey() {
     const key = get("add_key");
     const days = get("add_days");
+    const maxDevices = get("add_max_devices") || 1;
 
     if (!key) return showMessage("License key is required", "error");
 
-    const res = await addKeyAPI(key, days);
+    const res = await addKeyAPI(key, days, maxDevices);
     const data = await res.json();
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
@@ -85,10 +86,11 @@ async function extend() {
 // =========================
 async function resetDevice() {
     const key = get("reset_key");
+    const deviceId = get("reset_device_id");
 
     if (!key) return showMessage("License key is required", "error");
 
-    const res = await resetDeviceAPI(key);
+    const res = await resetDeviceAPI(key, deviceId);
     const data = await res.json();
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");

@@ -32,6 +32,14 @@ function set(id, value) {
     document.getElementById(id).value = value;
 }
 
+// clears a text/number field and refocuses it (used by the "x" clear icon)
+function clearInput(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = "";
+    el.focus();
+}
+
 // =========================
 // DASHBOARD UI
 // =========================
@@ -40,6 +48,7 @@ function renderStats(data) {
     document.getElementById("stat_active").innerText = data.active || 0;
     document.getElementById("stat_banned").innerText = data.banned || 0;
     document.getElementById("stat_expired").innerText = data.expired || 0;
+    document.getElementById("stat_pending").innerText = data.pending || 0;
 }
 
 // =========================
@@ -54,6 +63,7 @@ function statusBadge(status) {
         active: ["badge-success", "Active"],
         banned: ["badge-danger", "Banned"],
         expired: ["badge-warning", "Expired"],
+        pending: ["badge-neutral", "Pending"],
         true: ["badge-danger", "Banned"],
         false: ["badge-success", "Not Banned"],
     };
@@ -77,7 +87,7 @@ function renderUsers(data) {
         <table>
         <tr>
             <th>License Key</th>
-            <th>Bound Device</th>
+            <th>Devices</th>
             <th>Status</th>
             <th>Banned</th>
             <th>Time Left</th>
@@ -86,14 +96,18 @@ function renderUsers(data) {
     `;
 
     data.users.forEach(u => {
+        const deviceList = (u.devices && u.devices.length)
+            ? u.devices.join(", ")
+            : "none bound";
+
         html += `
         <tr>
             <td class="key-cell"> ${u.license_key}<span class="copy-icon" onClick="copyKey('${u.license_key}')"> &#10064; </span></td>
-            <td>${u.bound_device}</td>
+            <td title="${deviceList}">${u.device_count} / ${u.max_devices}</td>
             <td>${statusBadge(u.status)}</td>
             <td>${statusBadge(u.banned)}</td>
             <td>${u.time_left}</td>
-            <td>${u.state}</td>
+            <td>${statusBadge(u.state)}</td>
         </tr>
         `;
     });

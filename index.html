@@ -108,6 +108,11 @@
                 <h3>Expired</h3>
                 <p id="stat_expired">0</p>
               </div>
+
+              <div class="stat-card stat-neutral">
+                <h3>Pending</h3>
+                <p id="stat_pending">0</p>
+              </div>
             </div>
 
             <button onclick="loadStats()">Refresh Stats</button>
@@ -122,14 +127,39 @@
               <div class="card">
                 <h3>Generate Key</h3>
 
-                <input id="add_key" placeholder="Generate or enter key" />
-                <input
-                  id="add_days"
-                  type="number"
-                  placeholder="Days (e.g. 30)"
-                  min="1"
-                  max="3650"
-                />
+                <div class="input-wrap">
+                  <input id="add_key" placeholder="Generate or enter key" />
+                  <span class="clear-icon" onclick="clearInput('add_key')"
+                    >✕</span
+                  >
+                </div>
+                <div class="input-wrap">
+                  <input
+                    id="add_days"
+                    type="number"
+                    placeholder="Days (e.g. 30)"
+                    min="1"
+                    max="3650"
+                  />
+                  <span class="clear-icon" onclick="clearInput('add_days')"
+                    >✕</span
+                  >
+                </div>
+                <div class="input-wrap">
+                  <input
+                    id="add_max_devices"
+                    type="number"
+                    placeholder="Max devices (e.g. 1)"
+                    min="1"
+                    max="1000"
+                    value="1"
+                  />
+                  <span
+                    class="clear-icon"
+                    onclick="clearInput('add_max_devices')"
+                    >✕</span
+                  >
+                </div>
 
                 <button onclick="generateKey()">Generate</button>
                 <button class="btn-primary" onclick="addKey()">
@@ -140,7 +170,12 @@
               <!-- BAN / UNBAN -->
               <div class="card">
                 <h3>Ban / Unban Key</h3>
-                <input id="ban_key" placeholder="License Key" />
+                <div class="input-wrap">
+                  <input id="ban_key" placeholder="License Key" />
+                  <span class="clear-icon" onclick="clearInput('ban_key')"
+                    >✕</span
+                  >
+                </div>
                 <button class="btn-danger" onclick="ban()">Ban</button>
                 <button class="btn-primary" onclick="unban()">Unban</button>
               </div>
@@ -148,21 +183,47 @@
               <!-- EXTEND -->
               <div class="card">
                 <h3>Extend Key</h3>
-                <input id="ext_key" placeholder="License Key" />
-                <input
-                  id="ext_days"
-                  type="number"
-                  placeholder="Days"
-                  min="1"
-                  max="3650"
-                />
+                <div class="input-wrap">
+                  <input id="ext_key" placeholder="License Key" />
+                  <span class="clear-icon" onclick="clearInput('ext_key')"
+                    >✕</span
+                  >
+                </div>
+                <div class="input-wrap">
+                  <input
+                    id="ext_days"
+                    type="number"
+                    placeholder="Days"
+                    min="1"
+                    max="3650"
+                  />
+                  <span class="clear-icon" onclick="clearInput('ext_days')"
+                    >✕</span
+                  >
+                </div>
                 <button class="btn-primary" onclick="extend()">Extend</button>
               </div>
 
               <!-- RESET DEVICE -->
               <div class="card">
                 <h3>Reset Device</h3>
-                <input id="reset_key" placeholder="License Key" />
+                <div class="input-wrap">
+                  <input id="reset_key" placeholder="License Key" />
+                  <span class="clear-icon" onclick="clearInput('reset_key')"
+                    >✕</span
+                  >
+                </div>
+                <div class="input-wrap">
+                  <input
+                    id="reset_device_id"
+                    placeholder="Device ID (blank = reset all)"
+                  />
+                  <span
+                    class="clear-icon"
+                    onclick="clearInput('reset_device_id')"
+                    >✕</span
+                  >
+                </div>
                 <button class="btn-primary" onclick="resetDevice()">
                   Unbind Device
                 </button>
@@ -171,7 +232,12 @@
               <!-- DELETE -->
               <div class="card">
                 <h3>Delete Key</h3>
-                <input id="del_key" placeholder="License Key" />
+                <div class="input-wrap">
+                  <input id="del_key" placeholder="License Key" />
+                  <span class="clear-icon" onclick="clearInput('del_key')"
+                    >✕</span
+                  >
+                </div>
                 <button class="btn-danger" onclick="del()">Delete</button>
               </div>
             </div>

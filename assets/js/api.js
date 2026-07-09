@@ -33,11 +33,11 @@ async function loginAPI(username, password) {
     });
 }
 
-async function addKeyAPI(key, days) {
+async function addKeyAPI(key, days, maxDevices) {
     return safeFetch(API + "/add", {
         method: "POST",
         headers: headers(),
-        body: JSON.stringify({ license_key: key, days })
+        body: JSON.stringify({ license_key: key, days, max_devices: maxDevices })
     });
 }
 
@@ -73,12 +73,13 @@ async function deleteAPI(key) {
     });
 }
 
-// unbind a license from its currently bound device (new backend endpoint)
-async function resetDeviceAPI(key) {
+// unbind a license from its currently bound device(s) (new backend endpoint)
+// pass deviceId to unbind just that one device, or omit it to reset all
+async function resetDeviceAPI(key, deviceId) {
     return safeFetch(API + "/reset-device", {
         method: "POST",
         headers: headers(),
-        body: JSON.stringify({ license_key: key })
+        body: JSON.stringify({ license_key: key, device_id: deviceId || undefined })
     });
 }
 

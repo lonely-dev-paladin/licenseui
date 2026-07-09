@@ -907,6 +907,55 @@ ADMIN CONTEXT
 }
 
 /* =========================================================
+   CLEARABLE INPUTS (the "x" icon inside text/number fields)
+========================================================= */
+.input-wrap {
+    position: relative;
+    margin-top: 10px;
+}
+
+.input-wrap input {
+    margin-top: 0;
+    padding-right: 34px;
+}
+
+.clear-icon {
+    display: none;
+
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 20px;
+    height: 20px;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+    user-select: none;
+
+    font-size: 13px;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.45);
+
+    transition: color 0.2s, background 0.2s;
+}
+
+.clear-icon:hover {
+    color: var(--danger);
+    background: rgba(255, 77, 109, 0.12);
+}
+
+/* only show once the field actually has text/a number in it */
+.input-wrap input:not(:placeholder-shown) ~ .clear-icon {
+    display: flex;
+}
+
+/* =========================================================
    CONFIRM MODAL
 ========================================================= */
 .confirm-overlay {
