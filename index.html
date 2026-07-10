@@ -129,9 +129,7 @@
 
                 <div class="input-wrap">
                   <input id="add_key" placeholder="Generate or enter key" />
-                  <span class="clear-icon" onclick="clearInput('add_key')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('add_key')">✕</span>
                 </div>
                 <div class="input-wrap">
                   <input
@@ -141,9 +139,7 @@
                     min="1"
                     max="3650"
                   />
-                  <span class="clear-icon" onclick="clearInput('add_days')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('add_days')">✕</span>
                 </div>
                 <div class="input-wrap">
                   <input
@@ -154,11 +150,7 @@
                     max="1000"
                     value="1"
                   />
-                  <span
-                    class="clear-icon"
-                    onclick="clearInput('add_max_devices')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('add_max_devices')">✕</span>
                 </div>
 
                 <button onclick="generateKey()">Generate</button>
@@ -172,9 +164,7 @@
                 <h3>Ban / Unban Key</h3>
                 <div class="input-wrap">
                   <input id="ban_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('ban_key')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('ban_key')">✕</span>
                 </div>
                 <button class="btn-danger" onclick="ban()">Ban</button>
                 <button class="btn-primary" onclick="unban()">Unban</button>
@@ -185,9 +175,7 @@
                 <h3>Extend Key</h3>
                 <div class="input-wrap">
                   <input id="ext_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('ext_key')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('ext_key')">✕</span>
                 </div>
                 <div class="input-wrap">
                   <input
@@ -197,9 +185,7 @@
                     min="1"
                     max="3650"
                   />
-                  <span class="clear-icon" onclick="clearInput('ext_days')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('ext_days')">✕</span>
                 </div>
                 <button class="btn-primary" onclick="extend()">Extend</button>
               </div>
@@ -209,20 +195,11 @@
                 <h3>Reset Device</h3>
                 <div class="input-wrap">
                   <input id="reset_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('reset_key')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('reset_key')">✕</span>
                 </div>
                 <div class="input-wrap">
-                  <input
-                    id="reset_device_id"
-                    placeholder="Device ID (blank = reset all)"
-                  />
-                  <span
-                    class="clear-icon"
-                    onclick="clearInput('reset_device_id')"
-                    >✕</span
-                  >
+                  <input id="reset_device_id" placeholder="Device ID (blank = reset all)" />
+                  <span class="clear-icon" onclick="clearInput('reset_device_id')">✕</span>
                 </div>
                 <button class="btn-primary" onclick="resetDevice()">
                   Unbind Device
@@ -234,9 +211,7 @@
                 <h3>Delete Key</h3>
                 <div class="input-wrap">
                   <input id="del_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('del_key')"
-                    >✕</span
-                  >
+                  <span class="clear-icon" onclick="clearInput('del_key')">✕</span>
                 </div>
                 <button class="btn-danger" onclick="del()">Delete</button>
               </div>
@@ -247,7 +222,13 @@
         <!-- USERS -->
         <section id="users" class="section">
           <h2>ACTIVE LICENSES</h2>
-          <div id="users_table"></div>
+
+          <h3 class="subsection-title">Single-Device Licenses</h3>
+          <div id="single_users_table"></div>
+
+          <h3 class="subsection-title">Multi-Device Licenses</h3>
+          <div id="multi_users_table"></div>
+
           <button onclick="loadUsers()">Refresh</button>
         </section>
 

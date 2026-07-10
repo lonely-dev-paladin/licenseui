@@ -76,18 +76,36 @@ function statusBadge(status) {
 // USERS UI
 // =========================
 function renderUsers(data) {
-    const container = document.getElementById("users_table");
+    const singleContainer = document.getElementById("single_users_table");
+    const multiContainer = document.getElementById("multi_users_table");
 
     if (!data.users) {
-        container.innerHTML = "<p style='color:var(--danger)'>No data found</p>";
+        singleContainer.innerHTML = "<p style='color:var(--danger)'>No data found</p>";
+        multiContainer.innerHTML = "";
         return;
+    }
+
+    // A "single-device" license is one created with max_devices = 1;
+    // anything above that goes in the multi-device table instead, so the
+    // two license types never get mixed in the same list.
+    const singleLicenses = data.users.filter(u => u.max_devices === 1);
+    const multiLicenses = data.users.filter(u => u.max_devices > 1);
+
+    singleContainer.innerHTML = buildUsersTable(singleLicenses, false);
+    multiContainer.innerHTML = buildUsersTable(multiLicenses, true);
+}
+
+function buildUsersTable(users, isMulti) {
+    if (!users.length) {
+        const label = isMulti ? "multi-device" : "single-device";
+        return `<p class="no-devices-label">No ${label} licenses yet.</p>`;
     }
 
     let html = `
         <table>
         <tr>
             <th>License Key</th>
-            <th>Devices</th>
+            <th>${isMulti ? "Devices Connected" : "Device Connected"}</th>
             <th>Status</th>
             <th>Banned</th>
             <th>Time Left</th>
@@ -95,15 +113,11 @@ function renderUsers(data) {
         </tr>
     `;
 
-    data.users.forEach(u => {
-        const deviceList = (u.devices && u.devices.length)
-            ? u.devices.join(", ")
-            : "none bound";
-
+    users.forEach(u => {
         html += `
         <tr>
             <td class="key-cell"> ${u.license_key}<span class="copy-icon" onClick="copyKey('${u.license_key}')"> &#10064; </span></td>
-            <td title="${deviceList}">${u.device_count} / ${u.max_devices}</td>
+            <td>${renderDeviceChips(u)}</td>
             <td>${statusBadge(u.status)}</td>
             <td>${statusBadge(u.banned)}</td>
             <td>${u.time_left}</td>
@@ -113,7 +127,24 @@ function renderUsers(data) {
     });
 
     html += `</table>`;
-    container.innerHTML = html;
+    return html;
+}
+
+// Renders each bound device as a small clickable chip. Clicking one
+// auto-fills the Reset Device form with that exact license + device id,
+// since Reset Device needs the device id typed in manually otherwise.
+function renderDeviceChips(u) {
+    if (!u.devices || !u.devices.length) {
+        return `<span class="no-devices-label">none bound (0/${u.max_devices})</span>`;
+    }
+
+    const chips = u.devices.map(d => `
+        <span class="device-chip"
+              title="Click to load into Reset Device form"
+              onclick="useDeviceForReset('${u.license_key}', '${d}')">${d}</span>
+    `).join("");
+
+    return `<div class="device-chip-wrap">${chips}<span class="device-count-label">${u.device_count}/${u.max_devices}</span></div>`;
 }
 
 // =========================

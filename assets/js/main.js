@@ -98,6 +98,18 @@ async function resetDevice() {
     loadUsers();
 }
 
+// Called by clicking a device chip in the Users table — jumps to the
+// License Management tab with the Reset Device form pre-filled, so you
+// don't have to manually retype a device id you can already see on screen.
+function useDeviceForReset(key, deviceId) {
+    set("reset_key", key);
+    set("reset_device_id", deviceId);
+
+    if (typeof showSection === "function") showSection("keys");
+
+    showMessage(`Loaded device into Reset Device form`, "success");
+}
+
 // =========================
 // DELETE
 // =========================
@@ -210,6 +222,7 @@ window.unban = unban;
 window.extend = extend;
 window.del = del;
 window.resetDevice = resetDevice;
+window.useDeviceForReset = useDeviceForReset;
 
 window.loadStats = loadStats;
 window.loadUsers = loadUsers;
