@@ -104,6 +104,30 @@ async function clearAuditLogAPI() {
     });
 }
 
+// ===== ADMIN PURCHASE REQUESTS (superadmin review queue) =====
+async function getAdminRequestsAPI(status = "pending") {
+    return safeFetch(API + `/admin-requests?status=${status}`, { headers: headers() });
+}
+
+async function getAdminRequestScreenshotAPI(id) {
+    return safeFetch(API + `/admin-requests/${id}/screenshot`, { headers: headers() });
+}
+
+async function approveAdminRequestAPI(id) {
+    return safeFetch(API + `/admin-requests/${id}/approve`, {
+        method: "POST",
+        headers: headers()
+    });
+}
+
+async function rejectAdminRequestAPI(id, reason) {
+    return safeFetch(API + `/admin-requests/${id}/reject`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ reason: reason || "" })
+    });
+}
+
 //ADMIN CONTEXT
 async function getMeAPI() {
     return safeFetch(API + "/me", {

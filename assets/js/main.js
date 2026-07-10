@@ -203,6 +203,67 @@ async function clearAuditLog() {
 }
 
 // =========================
+// PENDING ADMIN REQUESTS (superadmin only)
+// =========================
+async function loadAdminRequests() {
+    if (!localStorage.getItem("token")) return;
+
+    const res = await getAdminRequestsAPI("pending");
+    const data = await res.json();
+
+    renderAdminRequests(data);
+}
+
+async function viewRequestScreenshot(id) {
+    const res = await getAdminRequestScreenshotAPI(id);
+    const data = await res.json();
+
+    if (!res.ok) {
+        showMessage(data.error || "Could not load screenshot", "error");
+        return;
+    }
+
+    const img = document.getElementById("screenshot-img");
+    img.src = `data:${data.screenshot_mime};base64,${data.screenshot_base64}`;
+
+    const overlay = document.getElementById("screenshot-overlay");
+    overlay.hidden = false;
+    requestAnimationFrame(() => overlay.classList.add("show"));
+}
+
+function closeScreenshot() {
+    const overlay = document.getElementById("screenshot-overlay");
+    overlay.classList.remove("show");
+    setTimeout(() => { overlay.hidden = true; }, 200);
+}
+
+async function approveRequest(id, username) {
+    const confirmed = await showConfirm(`Approve admin request for "${username}"?`);
+    if (!confirmed) return;
+
+    const res = await approveAdminRequestAPI(id);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    loadAdminRequests();
+}
+
+async function rejectRequest(id, username) {
+    const confirmed = await showConfirm(`Reject admin request for "${username}"?`);
+    if (!confirmed) return;
+
+    const reason = prompt("Optional reason for rejection:", "") || "";
+
+    const res = await rejectAdminRequestAPI(id, reason);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    loadAdminRequests();
+}
+
+// =========================
 // ADMIN CONTEXT
 // =========================
 async function loadAdminContext() {
@@ -217,6 +278,11 @@ async function loadAdminContext() {
 
     document.getElementById("adminRole").innerText =
         "Role: " + data.role.charAt(0).toUpperCase() + data.role.slice(1);
+
+    if (data.role === "superadmin") {
+        const nav = document.getElementById("pendingRequestsNav");
+        if (nav) nav.style.display = "";
+    }
 }
 
 // =========================
@@ -261,6 +327,11 @@ window.loadStats = loadStats;
 window.loadUsers = loadUsers;
 window.loadAuditLog = loadAuditLog;
 window.clearAuditLog = clearAuditLog;
+window.loadAdminRequests = loadAdminRequests;
+window.viewRequestScreenshot = viewRequestScreenshot;
+window.closeScreenshot = closeScreenshot;
+window.approveRequest = approveRequest;
+window.rejectRequest = rejectRequest;
 
 window.logout = logout;
 

@@ -914,7 +914,8 @@ ADMIN CONTEXT
    6-column table would otherwise force the entire dashboard to pan. */
 #single_users_table,
 #multi_users_table,
-#audit_table {
+#audit_table,
+#requests_table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -923,7 +924,8 @@ ADMIN CONTEXT
    the container to scroll instead of collapsing every column. */
 #single_users_table table,
 #multi_users_table table,
-#audit_table table {
+#audit_table table,
+#requests_table table {
     min-width: 600px;
 }
 
@@ -932,14 +934,16 @@ ADMIN CONTEXT
        scrollbar track/thumb so it doesn't look cluttered on mobile. */
     #single_users_table,
     #multi_users_table,
-    #audit_table {
+    #audit_table,
+    #requests_table {
         scrollbar-width: none;      /* Firefox */
         -ms-overflow-style: none;   /* old Edge/IE */
     }
 
     #single_users_table::-webkit-scrollbar,
     #multi_users_table::-webkit-scrollbar,
-    #audit_table::-webkit-scrollbar {
+    #audit_table::-webkit-scrollbar,
+    #requests_table::-webkit-scrollbar {
         display: none;              /* Chrome/Safari/AndLua+ WebViews */
     }
 }
@@ -1151,4 +1155,34 @@ ADMIN CONTEXT
     border-color: rgba(0, 247, 255, 0.25);
     text-decoration: none;
     text-shadow: none;
+}
+
+/* =========================================================
+   SCREENSHOT LIGHTBOX (Pending Requests)
+========================================================= */
+.screenshot-card {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-color: rgba(0, 247, 255, 0.3);
+}
+
+.screenshot-card img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.request-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.request-actions button {
+    margin-top: 0;
+    width: auto;
+    padding: 6px 12px;
+    font-size: 12px;
 }

@@ -48,6 +48,13 @@
           <li onclick="showSection('keys')">LICENSE KEYS</li>
           <li onclick="showSection('users')">USERS</li>
           <li onclick="showSection('audit')">AUDIT LOG</li>
+          <li
+            id="pendingRequestsNav"
+            onclick="showSection('requests')"
+            style="display: none"
+          >
+            PENDING REQUESTS
+          </li>
         </ul>
 
         <button onclick="logout()" class="logout-btn">Logout</button>
@@ -129,7 +136,9 @@
 
                 <div class="input-wrap">
                   <input id="add_key" placeholder="Generate or enter key" />
-                  <span class="clear-icon" onclick="clearInput('add_key')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('add_key')"
+                    >✕</span
+                  >
                 </div>
                 <div class="input-wrap">
                   <input
@@ -139,7 +148,9 @@
                     min="1"
                     max="3650"
                   />
-                  <span class="clear-icon" onclick="clearInput('add_days')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('add_days')"
+                    >✕</span
+                  >
                 </div>
                 <div class="input-wrap">
                   <input
@@ -150,7 +161,11 @@
                     max="1000"
                     value="1"
                   />
-                  <span class="clear-icon" onclick="clearInput('add_max_devices')">✕</span>
+                  <span
+                    class="clear-icon"
+                    onclick="clearInput('add_max_devices')"
+                    >✕</span
+                  >
                 </div>
 
                 <button onclick="generateKey()">Generate</button>
@@ -164,7 +179,9 @@
                 <h3>Ban / Unban Key</h3>
                 <div class="input-wrap">
                   <input id="ban_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('ban_key')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('ban_key')"
+                    >✕</span
+                  >
                 </div>
                 <button class="btn-danger" onclick="ban()">Ban</button>
                 <button class="btn-primary" onclick="unban()">Unban</button>
@@ -175,7 +192,9 @@
                 <h3>Extend Key</h3>
                 <div class="input-wrap">
                   <input id="ext_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('ext_key')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('ext_key')"
+                    >✕</span
+                  >
                 </div>
                 <div class="input-wrap">
                   <input
@@ -185,7 +204,9 @@
                     min="1"
                     max="3650"
                   />
-                  <span class="clear-icon" onclick="clearInput('ext_days')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('ext_days')"
+                    >✕</span
+                  >
                 </div>
                 <button class="btn-primary" onclick="extend()">Extend</button>
               </div>
@@ -195,11 +216,20 @@
                 <h3>Reset Device</h3>
                 <div class="input-wrap">
                   <input id="reset_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('reset_key')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('reset_key')"
+                    >✕</span
+                  >
                 </div>
                 <div class="input-wrap">
-                  <input id="reset_device_id" placeholder="Device ID (blank = reset all)" />
-                  <span class="clear-icon" onclick="clearInput('reset_device_id')">✕</span>
+                  <input
+                    id="reset_device_id"
+                    placeholder="Device ID (blank = reset all)"
+                  />
+                  <span
+                    class="clear-icon"
+                    onclick="clearInput('reset_device_id')"
+                    >✕</span
+                  >
                 </div>
                 <button class="btn-primary" onclick="resetDevice()">
                   Unbind Device
@@ -211,7 +241,9 @@
                 <h3>Delete Key</h3>
                 <div class="input-wrap">
                   <input id="del_key" placeholder="License Key" />
-                  <span class="clear-icon" onclick="clearInput('del_key')">✕</span>
+                  <span class="clear-icon" onclick="clearInput('del_key')"
+                    >✕</span
+                  >
                 </div>
                 <button class="btn-danger" onclick="del()">Delete</button>
               </div>
@@ -240,6 +272,13 @@
             Clear Log
           </button>
           <button onclick="loadAuditLog()">Refresh</button>
+        </section>
+
+        <!-- PENDING REQUESTS (superadmin only) -->
+        <section id="requests" class="section">
+          <h2>PENDING ADMIN REQUESTS</h2>
+          <div id="requests_table"></div>
+          <button onclick="loadAdminRequests()">Refresh</button>
         </section>
       </main>
     </div>
@@ -274,6 +313,19 @@
           <button id="confirm-cancel" class="textButton">Cancel</button>
           <button id="confirm-ok" class="btn-danger">Confirm</button>
         </div>
+      </div>
+    </div>
+
+    <!--SCREENSHOT LIGHTBOX-->
+    <div
+      id="screenshot-overlay"
+      class="confirm-overlay"
+      hidden
+      onclick="if (event.target === this) closeScreenshot();"
+    >
+      <div class="confirm-card screenshot-card">
+        <img id="screenshot-img" src="" alt="Payment screenshot" />
+        <button class="textButton" onclick="closeScreenshot()">Close</button>
       </div>
     </div>
   </body>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/cybercore-css@latest/dist/cybercore.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/login.css" />
+    <link rel="stylesheet" href="assets/css/become-admin.css" />
+    <link rel="icon" type="image/png" href="assets/images/Auth.png" />
+
+    <title>Become an Admin — Authra</title>
+  </head>
+  <body>
+    <div class="loginPage purchasePage">
+      <div class="loginCard purchaseCard">
+        <h2>Become an Admin</h2>
+        <p class="purchaseSubtitle">
+          Get your own admin seat — generate and manage your own license keys.
+        </p>
+
+        <!-- ============ CONTACT-FIRST NOTICE ============ -->
+        <div class="noticeBox">
+          ⚠️ <strong>Please contact the owner first</strong> before paying, to
+          confirm availability and current pricing. Reach out on
+          <a
+            href="https://t.me/angel_engine22"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Telegram</a
+          >
+          or
+          <a
+            href="https://facebook.com/deze.reyna"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Facebook</a
+          >
+          before sending any payment. Payments made without confirming first may
+          take longer to process, or may not be recognized.
+        </div>
+
+        <!-- ============ PRICING ============ -->
+        <div class="planGrid" id="planGrid">
+          <div class="planCard" data-plan="week" data-price="₱100">
+            <div class="planName">1 Week</div>
+            <div class="planPrice">₱100</div>
+          </div>
+          <div class="planCard" data-plan="month" data-price="₱300">
+            <div class="planName">1 Month</div>
+            <div class="planPrice">₱300</div>
+          </div>
+          <div class="planCard" data-plan="lifetime" data-price="₱1,000">
+            <div class="planName">Lifetime</div>
+            <div class="planPrice">₱1,000</div>
+          </div>
+        </div>
+
+        <!-- ============ GCASH INFO ============ -->
+        <div class="gcashBox">
+          <p class="gcashLabel">Send payment via GCash</p>
+          <p class="gcashNumber">0917-XXX-XXXX</p>
+          <img
+            src="assets/images/gcash-qr.png"
+            alt="GCash QR code"
+            class="gcashQr"
+          />
+          <p class="gcashHint">
+            Scan the QR code, or send manually to the number above.
+          </p>
+        </div>
+
+        <!-- ============ REQUEST FORM ============ -->
+        <form id="requestForm">
+          <input type="hidden" id="selectedPlan" value="" />
+
+          <div class="formGroup">
+            <label>Desired Username</label>
+            <input
+              id="reqUsername"
+              type="text"
+              placeholder="3-32 characters, letters/numbers/underscore"
+            />
+          </div>
+
+          <div class="formGroup">
+            <label>Desired Password</label>
+            <input
+              id="reqPassword"
+              type="password"
+              placeholder="At least 8 characters"
+            />
+          </div>
+
+          <div class="formGroup">
+            <label>Confirm Password</label>
+            <input
+              id="reqPasswordConfirm"
+              type="password"
+              placeholder="Re-enter password"
+            />
+          </div>
+
+          <div class="formGroup">
+            <label>GCash Reference Number</label>
+            <input
+              id="reqGcashRef"
+              type="text"
+              placeholder="From your GCash payment receipt"
+            />
+          </div>
+
+          <div class="formGroup">
+            <label>Proof of Payment Screenshot</label>
+            <input
+              id="reqScreenshot"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+            />
+          </div>
+
+          <button type="submit" id="submitRequestBtn">Submit Request</button>
+        </form>
+
+        <p id="requestMsg"></p>
+
+        <!-- ============ RESULT (shown after successful submit) ============ -->
+        <div id="resultBox" class="resultBox" style="display: none">
+          <p class="resultLabel">Your reference code:</p>
+          <p class="resultCode" id="resultCode">—</p>
+          <p class="resultHint">
+            Save this code — you'll need it to check your approval status. The
+            owner will manually verify your payment before your account is
+            activated.
+          </p>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============ STATUS CHECK ============ -->
+        <h2 class="statusTitle">Check Request Status</h2>
+        <div class="formGroup">
+          <label>Reference Code</label>
+          <input id="statusRefCode" type="text" placeholder="e.g. REQ-9F3A1C" />
+        </div>
+        <button id="checkStatusBtn" class="textButton statusCheckBtn">
+          Check Status
+        </button>
+        <div id="statusResult"></div>
+
+        <p style="margin-top: 16px">
+          <a href="login.html" class="backToLoginLink">← Back to Login</a>
+        </p>
+
+        <div class="copyright">© 2026 Authra. All rights reserved.</div>
+      </div>
+    </div>
+
+    <script src="assets/js/become-admin.js"></script>
+  </body>
+</html>

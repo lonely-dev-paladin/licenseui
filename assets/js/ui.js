@@ -196,6 +196,60 @@ function renderAuditLog(data) {
     container.innerHTML = html;
 }
 
+// =========================
+// PENDING ADMIN REQUESTS UI
+// =========================
+const PLAN_LABELS = { week: "1 Week", month: "1 Month", lifetime: "Lifetime" };
+
+function renderAdminRequests(data) {
+    const container = document.getElementById("requests_table");
+    if (!container) return;
+
+    if (!data.requests || !data.requests.length) {
+        container.innerHTML =
+            "<p style='color:var(--text-color); opacity:0.6;'>No pending requests.</p>";
+        return;
+    }
+
+    let html = `
+        <table>
+        <tr>
+            <th>Reference Code</th>
+            <th>Username</th>
+            <th>Plan</th>
+            <th>GCash Ref</th>
+            <th>Submitted</th>
+            <th>Actions</th>
+        </tr>
+    `;
+
+    data.requests.forEach(r => {
+        const when = new Date(r.created_at).toLocaleString();
+        const planLabel = PLAN_LABELS[r.plan] || r.plan;
+        const safeUsername = r.username.replace(/'/g, "\\'");
+
+        html += `
+        <tr>
+            <td>${r.reference_code}</td>
+            <td>${r.username}</td>
+            <td><span class="badge badge-neutral"><span class="badge-dot"></span>${planLabel}</span></td>
+            <td>${r.gcash_reference}</td>
+            <td>${when}</td>
+            <td>
+                <div class="request-actions">
+                    <button onclick="viewRequestScreenshot(${r.id})">View Proof</button>
+                    <button class="btn-primary" onclick="approveRequest(${r.id}, '${safeUsername}')">Approve</button>
+                    <button class="btn-danger" onclick="rejectRequest(${r.id}, '${safeUsername}')">Reject</button>
+                </div>
+            </td>
+        </tr>
+        `;
+    });
+
+    html += `</table>`;
+    container.innerHTML = html;
+}
+
 //COPY FUNCTION
 function copyKey(key) {
     navigator.clipboard.writeText(key)
