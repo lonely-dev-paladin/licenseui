@@ -907,6 +907,44 @@ ADMIN CONTEXT
 }
 
 /* =========================================================
+   SCOPED HORIZONTAL SCROLL (Users tables + Audit Log)
+========================================================= */
+/* Each table scrolls independently within its own box instead of the
+   whole page needing to scroll sideways — important on mobile where a
+   6-column table would otherwise force the entire dashboard to pan. */
+#single_users_table,
+#multi_users_table,
+#audit_table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Keeps columns from squishing unreadably on narrow screens — forces
+   the container to scroll instead of collapsing every column. */
+#single_users_table table,
+#multi_users_table table,
+#audit_table table {
+    min-width: 600px;
+}
+
+@media (max-width: 768px) {
+    /* Scrolling still works via touch/swipe — just visually hide the
+       scrollbar track/thumb so it doesn't look cluttered on mobile. */
+    #single_users_table,
+    #multi_users_table,
+    #audit_table {
+        scrollbar-width: none;      /* Firefox */
+        -ms-overflow-style: none;   /* old Edge/IE */
+    }
+
+    #single_users_table::-webkit-scrollbar,
+    #multi_users_table::-webkit-scrollbar,
+    #audit_table::-webkit-scrollbar {
+        display: none;              /* Chrome/Safari/AndLua+ WebViews */
+    }
+}
+
+/* =========================================================
    USERS: SUBSECTION TITLES (single-device vs multi-device)
 ========================================================= */
 .subsection-title {
