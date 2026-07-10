@@ -117,7 +117,7 @@ function buildUsersTable(users, isMulti) {
         html += `
         <tr>
             <td class="key-cell"> ${u.license_key}<span class="copy-icon" onClick="copyKey('${u.license_key}')"> &#10064; </span></td>
-            <td>${renderDeviceChips(u)}</td>
+            <td>${renderDeviceChips(u, isMulti)}</td>
             <td>${statusBadge(u.status)}</td>
             <td>${statusBadge(u.banned)}</td>
             <td>${u.time_left}</td>
@@ -133,9 +133,12 @@ function buildUsersTable(users, isMulti) {
 // Renders each bound device as a small clickable chip. Clicking one
 // auto-fills the Reset Device form with that exact license + device id,
 // since Reset Device needs the device id typed in manually otherwise.
-function renderDeviceChips(u) {
+// showCount is only true for the multi-device table — a 1/1 count on a
+// single-device license doesn't tell the admin anything useful.
+function renderDeviceChips(u, showCount) {
     if (!u.devices || !u.devices.length) {
-        return `<span class="no-devices-label">none bound (0/${u.max_devices})</span>`;
+        const countSuffix = showCount ? ` (0/${u.max_devices})` : "";
+        return `<span class="no-devices-label">none bound${countSuffix}</span>`;
     }
 
     const chips = u.devices.map(d => `
@@ -144,7 +147,11 @@ function renderDeviceChips(u) {
               onclick="useDeviceForReset('${u.license_key}', '${d}')">${d}</span>
     `).join("");
 
-    return `<div class="device-chip-wrap">${chips}<span class="device-count-label">${u.device_count}/${u.max_devices}</span></div>`;
+    const countLabel = showCount
+        ? `<span class="device-count-label">${u.device_count}/${u.max_devices}</span>`
+        : "";
+
+    return `<div class="device-chip-wrap">${chips}${countLabel}</div>`;
 }
 
 // =========================

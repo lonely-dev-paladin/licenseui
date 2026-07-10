@@ -19,6 +19,12 @@ async function addKey() {
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
 
+    if (res.ok) {
+        set("add_key", "");
+        set("add_days", "");
+        set("add_max_devices", "");
+    }
+
     loadStats();
     loadUsers();
 }
@@ -46,6 +52,8 @@ async function ban() {
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
 
+    if (res.ok) set("ban_key", "");
+
     loadStats();
     loadUsers();
 }
@@ -60,6 +68,8 @@ async function unban() {
     const data = await res.json();
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    if (res.ok) set("ban_key", "");
 
     loadStats();
     loadUsers();
@@ -76,6 +86,11 @@ async function extend() {
     const data = await res.json();
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    if (res.ok) {
+        set("ext_key", "");
+        set("ext_days", "");
+    }
 
     loadStats();
     loadUsers();
@@ -94,6 +109,11 @@ async function resetDevice() {
     const data = await res.json();
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    if (res.ok) {
+        set("reset_key", "");
+        set("reset_device_id", "");
+    }
 
     loadUsers();
 }
@@ -116,10 +136,19 @@ function useDeviceForReset(key, deviceId) {
 async function del() {
     const key = get("del_key");
 
+    if (!key) return showMessage("License key is required", "error");
+
+    const confirmed = await showConfirm(
+        `Delete "${key}" permanently? This cannot be undone.`
+    );
+    if (!confirmed) return;
+
     const res = await deleteAPI(key);
     const data = await res.json();
 
     showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    if (res.ok) set("del_key", "");
 
     loadStats();
     loadUsers();
@@ -193,6 +222,9 @@ async function loadAdminContext() {
 // LOGOUT
 // =========================
 async function logout() {
+    const confirmed = await showConfirm("Log out of the admin panel?");
+    if (!confirmed) return;
+
     try {
         await logoutAPI();
     } catch (e) {
