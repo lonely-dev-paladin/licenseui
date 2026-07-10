@@ -32,10 +32,11 @@ async function addKey() {
 // =========================
 // KEY GENERATOR
 // =========================
+// Produces exactly 10 characters total (dash included), e.g. "XXXXX-XXXX",
+// matching the backend's minimum license key length.
 function generateKey() {
     const key =
-        Math.random().toString(36).substring(2, 6).toUpperCase() + "-" +
-        Math.random().toString(36).substring(2, 6).toUpperCase() + "-" +
+        Math.random().toString(36).substring(2, 7).toUpperCase() + "-" +
         Math.random().toString(36).substring(2, 6).toUpperCase();
 
     set("add_key", key);
