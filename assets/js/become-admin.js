@@ -1,6 +1,52 @@
 const API = "https://license-system-e71k.onrender.com";
 
 // =========================
+// CONTACT COPY (WebView-safe alternative to navigating away)
+// =========================
+// Some in-app WebViews can't follow the t.me/facebook.com links (they try to
+// deep-link into the native app via a custom URL scheme the WebView doesn't
+// know how to handle). Copying the handle instead never navigates anywhere,
+// so it works everywhere, guaranteed — the person just pastes it manually.
+function copyContact(text, btnEl) {
+    const showCopied = () => {
+        const original = btnEl.innerText;
+        btnEl.innerText = "Copied!";
+        btnEl.classList.add("copied");
+        setTimeout(() => {
+            btnEl.innerText = original;
+            btnEl.classList.remove("copied");
+        }, 1500);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showCopied).catch(() => {
+            fallbackCopy(text, showCopied);
+        });
+    } else {
+        fallbackCopy(text, showCopied);
+    }
+}
+
+// Older/stripped-down WebViews may not expose the modern Clipboard API —
+// this manual textarea+execCommand approach works almost everywhere else.
+function fallbackCopy(text, onSuccess) {
+    try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        onSuccess();
+    } catch (err) {
+        console.error("Copy failed:", err);
+    }
+}
+
+// =========================
 // PLAN SELECTION
 // =========================
 const planCards = document.querySelectorAll(".planCard");

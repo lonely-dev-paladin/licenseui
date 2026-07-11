@@ -29,22 +29,48 @@
         <!-- ============ CONTACT-FIRST NOTICE ============ -->
         <div class="noticeBox">
           ⚠️ <strong>Please contact the owner first</strong> before paying, to
-          confirm availability and current pricing. Reach out on
-          <a
-            href="https://t.me/angel_engine22"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Telegram</a
-          >
-          or
-          <a
-            href="https://facebook.com/deze.reyna"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Facebook</a
-          >
-          before sending any payment. Payments made without confirming first may
-          take longer to process, or may not be recognized.
+          confirm availability and current pricing. Payments made without
+          confirming first may take longer to process, or may not be recognized.
+
+          <div class="contactRow">
+            <span class="contactLabel">Telegram:</span>
+            <a
+              href="https://t.me/angel_engine22"
+              target="_blank"
+              rel="noopener noreferrer"
+              >@angel_engine22</a
+            >
+            <button
+              type="button"
+              class="copyContactBtn"
+              onclick="copyContact('@angel_engine22', this)"
+            >
+              Copy
+            </button>
+          </div>
+
+          <div class="contactRow">
+            <span class="contactLabel">Facebook:</span>
+            <a
+              href="https://facebook.com/deze.reyna"
+              target="_blank"
+              rel="noopener noreferrer"
+              >deze.reyna</a
+            >
+            <button
+              type="button"
+              class="copyContactBtn"
+              onclick="copyContact('facebook.com/deze.reyna', this)"
+            >
+              Copy
+            </button>
+          </div>
+
+          <p class="contactHint">
+            If the links above don't open anything (common inside some in-app
+            browsers), tap "Copy" and paste the handle into Telegram or Facebook
+            directly.
+          </p>
         </div>
 
         <!-- ============ PRICING ============ -->
