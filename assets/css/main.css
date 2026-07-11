@@ -86,11 +86,10 @@ body {
     min-height: 0;
     overflow-y: auto;
 
-    /* Without this explicit value, browsers auto-derive overflow-x from
-       overflow-y (per spec) and it can end up non-"visible" too. Combined
-       with .sidebar li:hover's translateX(4px) below, that occasionally
-       registered as horizontal overflow, flickering a scrollbar in and
-       out on hover — this locks it off entirely. */
+    /* Kept as a safety net even though the hover transform that originally
+       caused the flicker has since been removed (see .sidebar li:hover) —
+       without this, browsers auto-derive overflow-x from overflow-y (per
+       spec), which can silently drift away from "visible" on its own. */
     overflow-x: hidden;
 }
 
@@ -153,13 +152,7 @@ h1 {
 
     border-color: rgba(0,247,255,0.18);
 
-    transform: translateX(4px);
-
     color: white;
-
-    box-shadow:
-        0 0 15px rgba(0,247,255,0.08),
-        0 0 20px rgba(255,0,140,0.06);
 }
 
 /*==========================================================

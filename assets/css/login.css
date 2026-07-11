@@ -259,7 +259,6 @@ a {
 
 .textButton:hover {
     color: #00f7ff;
-    text-decoration: underline;
     text-shadow: 0 0 8px rgba(0, 247, 255, 0.6);
 }
 
