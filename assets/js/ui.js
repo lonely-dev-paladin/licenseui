@@ -228,6 +228,10 @@ function renderAdminRequests(data) {
         const planLabel = PLAN_LABELS[r.plan] || r.plan;
         const safeUsername = r.username.replace(/'/g, "\\'");
 
+        const proofButton = r.has_screenshot
+            ? `<button onclick="viewRequestScreenshot(${r.id})">View Proof</button>`
+            : `<span class="no-devices-label">No screenshot</span>`;
+
         html += `
         <tr>
             <td>${r.reference_code}</td>
@@ -237,7 +241,7 @@ function renderAdminRequests(data) {
             <td>${when}</td>
             <td>
                 <div class="request-actions">
-                    <button onclick="viewRequestScreenshot(${r.id})">View Proof</button>
+                    ${proofButton}
                     <button class="btn-primary" onclick="approveRequest(${r.id}, '${safeUsername}')">Approve</button>
                     <button class="btn-danger" onclick="rejectRequest(${r.id}, '${safeUsername}')">Reject</button>
                 </div>

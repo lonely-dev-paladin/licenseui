@@ -60,14 +60,21 @@ document.getElementById("requestForm").addEventListener("submit", async (e) => {
     if (password.length < 8) return setMsg("Password must be at least 8 characters.");
     if (password !== passwordConfirm) return setMsg("Passwords do not match.");
     if (!gcashRef) return setMsg("Please enter your GCash reference number.");
-    if (!file) return setMsg("Please attach a screenshot of your payment.");
 
-    const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
-    if (!allowedTypes.includes(file.type)) {
-        return setMsg("Screenshot must be PNG, JPG, or WEBP.");
-    }
-    if (file.size > 3 * 1024 * 1024) {
-        return setMsg("Screenshot must be under 3MB.");
+    // Screenshot is optional now — some WebView-based browsers can't open
+    // the file picker, so buyers shouldn't be blocked from submitting
+    // without one. If they did attach a file, it's still validated.
+    let screenshot_base64 = null;
+    let screenshot_mime = null;
+
+    if (file) {
+        const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
+        if (!allowedTypes.includes(file.type)) {
+            return setMsg("Screenshot must be PNG, JPG, or WEBP.");
+        }
+        if (file.size > 3 * 1024 * 1024) {
+            return setMsg("Screenshot must be under 3MB.");
+        }
     }
 
     const submitBtn = document.getElementById("submitRequestBtn");
@@ -75,7 +82,10 @@ document.getElementById("requestForm").addEventListener("submit", async (e) => {
     submitBtn.innerText = "Submitting...";
 
     try {
-        const screenshot_base64 = await readFileAsBase64(file);
+        if (file) {
+            screenshot_base64 = await readFileAsBase64(file);
+            screenshot_mime = file.type;
+        }
 
         const res = await fetch(`${API}/admin-requests`, {
             method: "POST",
@@ -84,7 +94,7 @@ document.getElementById("requestForm").addEventListener("submit", async (e) => {
                 username, password, plan,
                 gcash_reference: gcashRef,
                 screenshot_base64,
-                screenshot_mime: file.type
+                screenshot_mime
             })
         });
 
