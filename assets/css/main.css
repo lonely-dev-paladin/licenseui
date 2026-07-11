@@ -1214,3 +1214,18 @@ ADMIN CONTEXT
     padding: 6px 12px;
     font-size: 12px;
 }
+
+/* =========================================================
+   REJECT REASON MODAL (Pending Requests)
+========================================================= */
+.reject-reason-input {
+    margin-top: 4px;
+    text-align: left;
+}
+
+.reject-reason-error {
+    color: var(--danger);
+    font-size: 12px;
+    margin-top: 8px;
+    text-align: left;
+}

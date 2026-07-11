@@ -304,4 +304,67 @@ function showConfirm(message) {
     });
 }
 
+// =========================
+// PROMPT MODAL (reason-for-rejection, etc.)
+// =========================
+// Themed replacement for the native prompt() popup. Requires non-empty
+// input — shows an inline error instead of submitting blank.
+// Usage: const reason = await showPrompt("Why?"); if (reason === null) return; // cancelled
+function showPrompt(message) {
+    const overlay = document.getElementById("reject-overlay");
+    const text = document.getElementById("reject-text");
+    const input = document.getElementById("reject-reason-input");
+    const errorEl = document.getElementById("reject-reason-error");
+    const okBtn = document.getElementById("reject-ok");
+    const cancelBtn = document.getElementById("reject-cancel");
+
+    if (!overlay) return Promise.resolve(window.prompt(message)); // fallback
+
+    text.innerText = message;
+    input.value = "";
+    errorEl.hidden = true;
+    overlay.hidden = false;
+    requestAnimationFrame(() => {
+        overlay.classList.add("show");
+        input.focus();
+    });
+
+    return new Promise(resolve => {
+        function cleanup(result) {
+            overlay.classList.remove("show");
+            setTimeout(() => { overlay.hidden = true; }, 200);
+            okBtn.removeEventListener("click", onOk);
+            cancelBtn.removeEventListener("click", onCancel);
+            overlay.removeEventListener("click", onOverlayClick);
+            input.removeEventListener("keydown", onKeydown);
+            resolve(result);
+        }
+
+        function onOk() {
+            const value = input.value.trim();
+            if (!value) {
+                errorEl.hidden = false;
+                input.focus();
+                return;
+            }
+            cleanup(value);
+        }
+
+        function onCancel() { cleanup(null); }
+
+        function onOverlayClick(e) {
+            if (e.target === overlay) cleanup(null);
+        }
+
+        function onKeydown(e) {
+            if (e.key === "Enter") onOk();
+        }
+
+        okBtn.addEventListener("click", onOk);
+        cancelBtn.addEventListener("click", onCancel);
+        overlay.addEventListener("click", onOverlayClick);
+        input.addEventListener("keydown", onKeydown);
+    });
+}
+
 //ui.js

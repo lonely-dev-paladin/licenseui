@@ -69,11 +69,11 @@
             <i class="bx bxl-github"></i>
           </a>
 
-          <a href="https://www.facebook.com/deze.reyna">
+          <a href="#">
             <i class="bx bxl-facebook-square"></i>
           </a>
 
-          <a href="t.me/angel_engine22">
+          <a href="#">
             <i class="bx bxl-instagram"></i>
           </a>
 
@@ -326,6 +326,26 @@
       <div class="confirm-card screenshot-card">
         <img id="screenshot-img" src="" alt="Payment screenshot" />
         <button class="textButton" onclick="closeScreenshot()">Close</button>
+      </div>
+    </div>
+
+    <!--REJECT REASON MODAL-->
+    <div id="reject-overlay" class="confirm-overlay" hidden>
+      <div class="confirm-card">
+        <p id="reject-text">Please state the reason of rejection</p>
+        <input
+          type="text"
+          id="reject-reason-input"
+          class="reject-reason-input"
+          placeholder="e.g. Payment reference did not match"
+        />
+        <p id="reject-reason-error" class="reject-reason-error" hidden>
+          Please state the reason of rejection.
+        </p>
+        <div class="confirm-actions">
+          <button id="reject-cancel" class="textButton">Cancel</button>
+          <button id="reject-ok" class="btn-danger">Reject</button>
+        </div>
       </div>
     </div>
   </body>

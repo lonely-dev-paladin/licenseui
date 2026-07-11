@@ -250,10 +250,8 @@ async function approveRequest(id, username) {
 }
 
 async function rejectRequest(id, username) {
-    const confirmed = await showConfirm(`Reject admin request for "${username}"?`);
-    if (!confirmed) return;
-
-    const reason = prompt("Optional reason for rejection:", "") || "";
+    const reason = await showPrompt(`Reject admin request for "${username}"? Please state the reason of rejection.`);
+    if (reason === null) return; // cancelled
 
     const res = await rejectAdminRequestAPI(id, reason);
     const data = await res.json();

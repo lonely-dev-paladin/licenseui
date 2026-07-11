@@ -147,8 +147,10 @@ document.getElementById("checkStatusBtn").addEventListener("click", async () => 
         } else if (data.status === "approved") {
             resultEl.innerHTML = `<span class="success">✔ Approved! <a href="login.html" style="color:#00f7ff;">Go to Login →</a></span>`;
         } else if (data.status === "rejected") {
-            const reason = data.rejection_reason ? ` (${data.rejection_reason})` : "";
-            resultEl.innerHTML = `<span class="error">✘ Rejected${reason}</span>`;
+            const reasonText = data.rejection_reason
+                ? ` Owner reason: "${data.rejection_reason}"`
+                : "";
+            resultEl.innerHTML = `<span class="error">✘ Rejected.${reasonText}</span>`;
         }
     } catch (err) {
         console.error(err);
