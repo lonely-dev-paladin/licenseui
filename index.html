@@ -55,6 +55,13 @@
           >
             PENDING REQUESTS
           </li>
+          <li
+            id="adminsNav"
+            onclick="showSection('admins')"
+            style="display: none"
+          >
+            ADMINS
+          </li>
         </ul>
 
         <button onclick="logout()" class="logout-btn">Logout</button>
@@ -280,6 +287,13 @@
           <div id="requests_table"></div>
           <button onclick="loadAdminRequests()">Refresh</button>
         </section>
+
+        <!-- ADMINS (superadmin only) -->
+        <section id="admins" class="section">
+          <h2>ADMIN ACCOUNTS</h2>
+          <div id="admins_table"></div>
+          <button onclick="loadAdmins()">Refresh</button>
+        </section>
       </main>
     </div>
 
@@ -345,6 +359,30 @@
         <div class="confirm-actions">
           <button id="reject-cancel" class="textButton">Cancel</button>
           <button id="reject-ok" class="btn-danger">Reject</button>
+        </div>
+      </div>
+    </div>
+
+    <!--TERMINATE ADMIN MODAL (typed confirmation — irreversible action)-->
+    <div id="terminate-overlay" class="confirm-overlay" hidden>
+      <div class="confirm-card">
+        <p id="terminate-text">
+          This will permanently delete this admin and all their data.
+        </p>
+        <p class="reject-reason-error">
+          Type the username exactly to confirm — this cannot be undone.
+        </p>
+        <input
+          type="text"
+          id="terminate-confirm-input"
+          class="reject-reason-input"
+          placeholder="Type username to confirm"
+        />
+        <div class="confirm-actions">
+          <button id="terminate-cancel" class="textButton">Cancel</button>
+          <button id="terminate-ok" class="btn-danger" disabled>
+            Terminate
+          </button>
         </div>
       </div>
     </div>

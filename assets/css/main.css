@@ -591,6 +591,13 @@ button.btn-danger:hover {
         0 0 30px rgba(255,0,140,0.12);
 }
 
+button.btn-danger:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 /* =========================================================
    TABLE
 ========================================================= */
@@ -943,7 +950,8 @@ ADMIN CONTEXT
 #single_users_table,
 #multi_users_table,
 #audit_table,
-#requests_table {
+#requests_table,
+#admins_table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -953,7 +961,8 @@ ADMIN CONTEXT
 #single_users_table table,
 #multi_users_table table,
 #audit_table table,
-#requests_table table {
+#requests_table table,
+#admins_table table {
     min-width: 600px;
 }
 
@@ -963,7 +972,8 @@ ADMIN CONTEXT
     #single_users_table,
     #multi_users_table,
     #audit_table,
-    #requests_table {
+    #requests_table,
+    #admins_table {
         scrollbar-width: none;      /* Firefox */
         -ms-overflow-style: none;   /* old Edge/IE */
     }
@@ -971,7 +981,8 @@ ADMIN CONTEXT
     #single_users_table::-webkit-scrollbar,
     #multi_users_table::-webkit-scrollbar,
     #audit_table::-webkit-scrollbar,
-    #requests_table::-webkit-scrollbar {
+    #requests_table::-webkit-scrollbar,
+    #admins_table::-webkit-scrollbar {
         display: none;              /* Chrome/Safari/AndLua+ WebViews */
     }
 }
