@@ -1,5 +1,13 @@
 // NOTE: api.js + ui.js must be loaded BEFORE this file
 
+// set once loadAdminContext() resolves; used by renderAdmins() to hide the
+// "Terminate" button on your own account row
+let currentAdminUsername = null;
+
+let sessionHeartbeatId = null;      // periodic "am I still an admin?" check
+let isHandlingTermination = false;  // guards against showing the popup twice
+// if several requests 403 at once
+
 // =========================
 // ADD KEY
 // =========================
@@ -262,6 +270,35 @@ async function rejectRequest(id, username) {
 }
 
 // =========================
+// ADMIN MANAGEMENT (superadmin only)
+// =========================
+async function loadAdmins() {
+    if (!localStorage.getItem("token")) return;
+
+    const res = await getAdminsAPI();
+    const data = await res.json();
+
+    renderAdmins(data);
+}
+
+async function terminateAdmin(id, username, role, keyCount, logCount) {
+    const message =
+        `This will permanently delete "${username}" (${role}), along with ` +
+        `${keyCount} license key(s) and ${logCount} audit log entr${logCount === 1 ? "y" : "ies"}. ` +
+        `This cannot be undone.`;
+
+    const confirmed = await showTypedConfirm(message, username);
+    if (!confirmed) return;
+
+    const res = await terminateAdminAPI(id);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    loadAdmins();
+}
+
+// =========================
 // ADMIN CONTEXT
 // =========================
 async function loadAdminContext() {
@@ -277,9 +314,14 @@ async function loadAdminContext() {
     document.getElementById("adminRole").innerText =
         "Role: " + data.role.charAt(0).toUpperCase() + data.role.slice(1);
 
+    currentAdminUsername = data.user; // used by renderAdmins to hide "Terminate" on your own row
+
     if (data.role === "superadmin") {
-        const nav = document.getElementById("pendingRequestsNav");
-        if (nav) nav.style.display = "";
+        const requestsNav = document.getElementById("pendingRequestsNav");
+        if (requestsNav) requestsNav.style.display = "";
+
+        const adminsNav = document.getElementById("adminsNav");
+        if (adminsNav) adminsNav.style.display = "";
     }
 }
 
@@ -296,8 +338,47 @@ async function logout() {
         console.log("logout API failed, continuing frontend logout");
     }
 
+    stopSessionHeartbeat();
     localStorage.removeItem("token");
     window.location.href = "login.html";
+}
+
+// =========================
+// TERMINATION HANDLING (superadmin deleted this account)
+// =========================
+// Called from safeFetch() the moment ANY authenticated request comes back
+// with the "terminated" flag — whether that's from clicking something, or
+// from the idle heartbeat below catching it while the person wasn't doing
+// anything at all.
+async function forceLogoutTerminated(message) {
+    if (isHandlingTermination) return; // don't stack multiple popups
+    isHandlingTermination = true;
+
+    stopSessionHeartbeat();
+
+    await showAlert(message || "You have been terminated by the owner.");
+
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+// Periodically re-checks that this session is still valid even if the
+// person isn't clicking anything — otherwise a terminated admin could sit
+// on the dashboard indefinitely with no indication anything happened until
+// they next tried an action.
+function startSessionHeartbeat() {
+    if (sessionHeartbeatId) return; // already running
+    sessionHeartbeatId = setInterval(() => {
+        if (!localStorage.getItem("token")) return;
+        getMeAPI(); // safeFetch() inside this call triggers forceLogoutTerminated if needed
+    }, 20000); // every 20s
+}
+
+function stopSessionHeartbeat() {
+    if (sessionHeartbeatId) {
+        clearInterval(sessionHeartbeatId);
+        sessionHeartbeatId = null;
+    }
 }
 
 // =========================
@@ -330,11 +411,17 @@ window.viewRequestScreenshot = viewRequestScreenshot;
 window.closeScreenshot = closeScreenshot;
 window.approveRequest = approveRequest;
 window.rejectRequest = rejectRequest;
+window.loadAdmins = loadAdmins;
+window.terminateAdmin = terminateAdmin;
 
 window.logout = logout;
+window.forceLogoutTerminated = forceLogoutTerminated;
+window.startSessionHeartbeat = startSessionHeartbeat;
+window.stopSessionHeartbeat = stopSessionHeartbeat;
 
 document.addEventListener("DOMContentLoaded", () => {
     loadAdminContext(); //load admin context as you can see
+    startSessionHeartbeat();
 });
 
 // main.js

@@ -270,6 +270,59 @@ function copyKey(key) {
 // =========================
 // Themed replacement for the native confirm() popup.
 // Usage: if (await showConfirm("Delete this key?")) { ...do the thing... }
+// =========================
+// ALERT MODAL (single-button notice, e.g. forced logout messages)
+// =========================
+// Reuses the confirm modal's DOM instead of adding a duplicate — hides the
+// Cancel button and relabels Confirm as "OK" while shown, then restores
+// both back to their normal showConfirm() defaults afterward.
+function showAlert(message) {
+    const overlay = document.getElementById("confirm-overlay");
+    const text = document.getElementById("confirm-text");
+    const okBtn = document.getElementById("confirm-ok");
+    const cancelBtn = document.getElementById("confirm-cancel");
+
+    if (!overlay) {
+        window.alert(message);
+        return Promise.resolve();
+    }
+
+    text.innerText = message;
+    cancelBtn.style.display = "none";
+    okBtn.innerText = "OK";
+    okBtn.classList.remove("btn-danger");
+    okBtn.classList.add("btn-primary");
+
+    overlay.hidden = false;
+    requestAnimationFrame(() => overlay.classList.add("show"));
+
+    return new Promise(resolve => {
+        function restoreDefaults() {
+            cancelBtn.style.display = "";
+            okBtn.innerText = "Confirm";
+            okBtn.classList.remove("btn-primary");
+            okBtn.classList.add("btn-danger");
+        }
+
+        function cleanup() {
+            overlay.classList.remove("show");
+            setTimeout(() => {
+                overlay.hidden = true;
+                restoreDefaults();
+            }, 200);
+            okBtn.removeEventListener("click", onOk);
+            overlay.removeEventListener("click", onOverlayClick);
+            resolve();
+        }
+
+        function onOk() { cleanup(); }
+        function onOverlayClick(e) { if (e.target === overlay) cleanup(); }
+
+        okBtn.addEventListener("click", onOk);
+        overlay.addEventListener("click", onOverlayClick);
+    });
+}
+
 function showConfirm(message) {
     const overlay = document.getElementById("confirm-overlay");
     const text = document.getElementById("confirm-text");
@@ -365,6 +418,132 @@ function showPrompt(message) {
         overlay.addEventListener("click", onOverlayClick);
         input.addEventListener("keydown", onKeydown);
     });
+}
+
+// =========================
+// TYPED CONFIRM MODAL (irreversible actions — e.g. terminating an admin)
+// =========================
+// Stronger than showConfirm(): the confirm button stays disabled until the
+// person types requiredText exactly. Used for destructive actions where a
+// single misclick would be too easy and too costly.
+// Usage: if (await showTypedConfirm("Delete X? Type X to confirm.", "X")) { ... }
+function showTypedConfirm(message, requiredText) {
+    const overlay = document.getElementById("terminate-overlay");
+    const text = document.getElementById("terminate-text");
+    const input = document.getElementById("terminate-confirm-input");
+    const okBtn = document.getElementById("terminate-ok");
+    const cancelBtn = document.getElementById("terminate-cancel");
+
+    if (!overlay) return Promise.resolve(window.confirm(message)); // fallback
+
+    text.innerText = message;
+    input.value = "";
+    okBtn.disabled = true;
+    overlay.hidden = false;
+    requestAnimationFrame(() => {
+        overlay.classList.add("show");
+        input.focus();
+    });
+
+    return new Promise(resolve => {
+        function updateButtonState() {
+            okBtn.disabled = input.value !== requiredText;
+        }
+
+        function cleanup(result) {
+            overlay.classList.remove("show");
+            setTimeout(() => { overlay.hidden = true; }, 200);
+            okBtn.removeEventListener("click", onOk);
+            cancelBtn.removeEventListener("click", onCancel);
+            overlay.removeEventListener("click", onOverlayClick);
+            input.removeEventListener("input", updateButtonState);
+            input.removeEventListener("keydown", onKeydown);
+            resolve(result);
+        }
+
+        function onOk() {
+            if (input.value !== requiredText) return;
+            cleanup(true);
+        }
+
+        function onCancel() { cleanup(false); }
+
+        function onOverlayClick(e) {
+            if (e.target === overlay) cleanup(false);
+        }
+
+        function onKeydown(e) {
+            if (e.key === "Enter") onOk();
+        }
+
+        input.addEventListener("input", updateButtonState);
+        input.addEventListener("keydown", onKeydown);
+        okBtn.addEventListener("click", onOk);
+        cancelBtn.addEventListener("click", onCancel);
+        overlay.addEventListener("click", onOverlayClick);
+    });
+}
+
+// =========================
+// ADMIN MANAGEMENT UI
+// =========================
+function renderAdmins(data) {
+    const container = document.getElementById("admins_table");
+    if (!container) return;
+
+    if (!data.admins || !data.admins.length) {
+        container.innerHTML =
+            "<p style='color:var(--text-color); opacity:0.6;'>No admin accounts found.</p>";
+        return;
+    }
+
+    let html = `
+        <table>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Plan</th>
+            <th>Expires</th>
+            <th>Keys</th>
+            <th>Log Entries</th>
+            <th>Actions</th>
+        </tr>
+    `;
+
+    data.admins.forEach(a => {
+        const expires = a.expires_at
+            ? new Date(a.expires_at).toLocaleDateString()
+            : "Never";
+        const planLabel = a.plan ? (PLAN_LABELS[a.plan] || a.plan) : "—";
+        const safeUsername = a.username.replace(/'/g, "\\'");
+
+        const isSelf = a.username === currentAdminUsername;
+        const isSuperadmin = a.role === "superadmin";
+
+        let actionCell;
+        if (isSelf) {
+            actionCell = `<span class="no-devices-label">This is you</span>`;
+        } else if (isSuperadmin) {
+            actionCell = `<span class="no-devices-label">Protected role</span>`;
+        } else {
+            actionCell = `<button class="btn-danger" onclick="terminateAdmin('${a.id}', '${safeUsername}', '${a.role}', ${a.key_count}, ${a.log_count})">Terminate</button>`;
+        }
+
+        html += `
+        <tr>
+            <td>${a.username}</td>
+            <td><span class="badge badge-neutral"><span class="badge-dot"></span>${a.role}</span></td>
+            <td>${planLabel}</td>
+            <td>${expires}</td>
+            <td>${a.key_count}</td>
+            <td>${a.log_count}</td>
+            <td>${actionCell}</td>
+        </tr>
+        `;
+    });
+
+    html += `</table>`;
+    container.innerHTML = html;
 }
 
 //ui.js

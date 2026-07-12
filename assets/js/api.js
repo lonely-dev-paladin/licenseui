@@ -20,6 +20,23 @@ async function safeFetch(url, options) {
         return null;
     }
 
+    // Any authenticated call can surface "terminated" once a superadmin
+    // deletes this account — catches it regardless of which action the
+    // person happened to be doing when it happened. Skipped for /login
+    // itself, since that flow already displays its own error text inline
+    // and isn't running on a page with the popup modal available anyway.
+    if (!res.ok && !url.endsWith("/login")) {
+        try {
+            const data = await res.clone().json();
+            if (data && data.terminated && typeof forceLogoutTerminated === "function") {
+                await forceLogoutTerminated(data.error);
+                return null;
+            }
+        } catch (e) {
+            // response wasn't JSON — fall through, let the caller handle it normally
+        }
+    }
+
     return res;
 }
 
@@ -99,6 +116,18 @@ async function getAuditLogAPI(limit = 100) {
 // wipes the current admin's own audit history
 async function clearAuditLogAPI() {
     return safeFetch(API + "/audit-log", {
+        method: "DELETE",
+        headers: headers()
+    });
+}
+
+// ===== ADMIN MANAGEMENT (superadmin only) =====
+async function getAdminsAPI() {
+    return safeFetch(API + "/admins", { headers: headers() });
+}
+
+async function terminateAdminAPI(id) {
+    return safeFetch(API + `/admins/${id}`, {
         method: "DELETE",
         headers: headers()
     });
