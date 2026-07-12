@@ -129,7 +129,9 @@
               </div>
             </div>
 
-            <button onclick="loadStats()">Refresh Stats</button>
+            <button class="action-btn" onclick="loadStats()">
+              Refresh Stats
+            </button>
           </section>
 
           <!-- KEYS -->
@@ -268,31 +270,33 @@
           <h3 class="subsection-title">Multi-Device Licenses</h3>
           <div id="multi_users_table"></div>
 
-          <button onclick="loadUsers()">Refresh</button>
+          <button class="action-btn" onclick="loadUsers()">Refresh</button>
         </section>
 
         <!-- AUDIT LOG -->
         <section id="audit" class="section">
           <h2>AUDIT LOG</h2>
           <div id="audit_table"></div>
-          <button class="btn-danger" onclick="clearAuditLog()">
+          <button class="action-btn btn-danger" onclick="clearAuditLog()">
             Clear Log
           </button>
-          <button onclick="loadAuditLog()">Refresh</button>
+          <button class="action-btn" onclick="loadAuditLog()">Refresh</button>
         </section>
 
         <!-- PENDING REQUESTS (superadmin only) -->
         <section id="requests" class="section">
           <h2>PENDING ADMIN REQUESTS</h2>
           <div id="requests_table"></div>
-          <button onclick="loadAdminRequests()">Refresh</button>
+          <button class="action-btn" onclick="loadAdminRequests()">
+            Refresh
+          </button>
         </section>
 
         <!-- ADMINS (superadmin only) -->
         <section id="admins" class="section">
           <h2>ADMIN ACCOUNTS</h2>
           <div id="admins_table"></div>
-          <button onclick="loadAdmins()">Refresh</button>
+          <button class="action-btn" onclick="loadAdmins()">Refresh</button>
         </section>
       </main>
     </div>
