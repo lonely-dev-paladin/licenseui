@@ -552,7 +552,7 @@ button {
    cards specifically, not these. */
 .action-btn {
     width: auto;
-    display: inline-block;
+    display: center;
     padding: 9px 20px;
     margin-right: 8px;
 }
