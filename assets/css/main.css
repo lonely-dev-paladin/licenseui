@@ -546,15 +546,26 @@ button {
         0 0 15px rgba(0,247,255,0.06);
 }
 
-/* Standalone action buttons (Refresh, Clear Log, etc.) that sit directly
-   under a table rather than stacked inside a narrow License Management
-   card — the default full-width button rule above is meant for those
-   cards specifically, not these. */
+/* Standalone action buttons (Refresh, Clear Log, etc.). Sized to their
+   content and centered as a group via the .actions-row wrapper below,
+   instead of stacking flush left the way inline-block used to. */
 .action-btn {
     width: auto;
     display: inline-block;
     padding: 9px 20px;
-    margin-right: 8px;
+}
+
+/* Wraps one or more .action-btn buttons and centers them as a group,
+   whether there's a single Refresh button or a Clear Log + Refresh pair.
+   Use this around any block of .action-btn buttons instead of letting
+   them fall back to inline-block's default left alignment. */
+.actions-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 /* Subtle secondary button (e.g. "Close" on the screenshot lightbox, "Cancel"
