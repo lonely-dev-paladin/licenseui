@@ -85,11 +85,6 @@
     transition: 0.2s ease;
 }
 
-.planCard:hover {
-    border-color: rgba(0, 247, 255, 0.4);
-    transform: translateY(-2px);
-}
-
 .planCard.selected {
     border-color: #00f7ff;
     background: rgba(0, 247, 255, 0.1);

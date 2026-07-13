@@ -28,6 +28,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/login.css" />
+    <link rel="stylesheet" href="assets/css/ripple.css" />
     <link rel="icon" type="image/png" href="assets/images/Auth.png" />
 
     <title>Authra Login</title>
@@ -37,30 +38,123 @@
      LOGIN VIEW
 ========================= -->
     <div id="loginView" class="loginPage">
-      <div class="loginCard" id="loginCard">
-        <h2>Admin Login</h2>
+      <div class="loginCenterWrap">
+        <div class="loginCard" id="loginCard">
+          <h2>Admin Login</h2>
 
-        <form id="loginForm">
-          <input id="username" type="text" placeholder="Username" />
-          <input id="password" type="password" placeholder="Password" />
+          <form id="loginForm">
+            <input id="username" type="text" placeholder="Username" />
+            <input id="password" type="password" placeholder="Password" />
 
-          <button type="submit">Login</button>
-        </form>
+            <button type="submit">Login</button>
+          </form>
 
-        <div id="message"></div>
+          <div id="message"></div>
 
-        <p style="margin-top: 12px; font-size: 12px; color: #aaa">
-          Developer?
-          <a href="#" id="openSuperadminLogin">Create admin</a>
-          instead.
-        </p>
+          <p style="margin-top: 12px; font-size: 12px; color: #aaa">
+            Developer?
+            <a href="#" id="openSuperadminLogin">Create admin</a>
+            instead.
+          </p>
 
-        <p style="margin-top: 8px; font-size: 12px; color: #aaa">
-          Don't have an account?
-          <a href="become-admin.html">Become an admin</a>
-        </p>
+          <p style="margin-top: 8px; font-size: 12px; color: #aaa">
+            Don't have an account?
+            <a href="become-admin.html">Become an admin</a>
+          </p>
 
-        <div class="copyright">© 2026 Authra. All rights reserved.</div>
+          <div class="copyright">© 2026 Authra. All rights reserved.</div>
+        </div>
+      </div>
+
+      <!-- =========================
+         ABOUT / FEATURES SECTION
+    ========================= -->
+      <div class="aboutSection">
+        <div class="aboutCard">
+          <h2>About Authra Panel</h2>
+          <p class="aboutIntro">
+            A license key management system for software distribution — built
+            with a self-service admin marketplace, multi-device license support,
+            and a full audit trail.
+          </p>
+
+          <div class="aboutGroup">
+            <h3>🔑 What Admins Can Do</h3>
+            <ul>
+              <li>
+                Generate license keys — single-device, or multi-device with up
+                to 1,000 device slots per key
+              </li>
+              <li>
+                Ban, unban, extend, or permanently delete any key they've issued
+              </li>
+              <li>
+                Reset a bound device so a key can be activated on a new machine
+              </li>
+              <li>
+                View all issued keys, organized separately by single-device vs.
+                multi-device
+              </li>
+              <li>
+                View and clear their own audit log of every action they've taken
+              </li>
+            </ul>
+          </div>
+
+          <div class="aboutGroup">
+            <h3>👑 What Superadmins Can Do</h3>
+            <ul>
+              <li>Everything an Admin can do, plus:</li>
+              <li>Create new admin accounts directly</li>
+              <li>
+                Review, approve, or reject self-service admin purchase requests
+              </li>
+              <li>
+                View every admin account on the platform, with live key and
+                audit-log counts
+              </li>
+              <li>
+                Permanently terminate an admin or moderator account and all of
+                their data
+              </li>
+            </ul>
+          </div>
+
+          <div class="aboutGroup">
+            <h3>✨ Notable Features</h3>
+            <ul>
+              <li>
+                A license key's countdown only starts once the first device
+                actually activates it — not at creation
+              </li>
+              <li>
+                Self-service "Become an Admin" flow — buy a week, month, or
+                lifetime seat via GCash
+              </li>
+              <li>
+                Full audit trail covering every key and admin-management action
+              </li>
+              <li>
+                Companion Android app with offline grace period,
+                English/Tagalog/Cebuano language support, light/dark themes, and
+                mini-games
+              </li>
+            </ul>
+          </div>
+
+          <div class="aboutGroup">
+            <h3>⚙️ Built With</h3>
+            <div class="techGrid">
+              <span class="techPill">Python (Flask)</span>
+              <span class="techPill">PostgreSQL</span>
+              <span class="techPill">Supabase</span>
+              <span class="techPill">Render</span>
+              <span class="techPill">Redis (optional)</span>
+              <span class="techPill">HTML / CSS / JS</span>
+              <span class="techPill">AndLua+ (Android)</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -116,5 +210,6 @@
     <script src="assets/js/api.js"></script>
     <script src="assets/js/login.js"></script>
     <script src="assets/js/ui.js"></script>
+    <script src="assets/js/ripple.js"></script>
   </body>
 </html>

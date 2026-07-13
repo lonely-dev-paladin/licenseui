@@ -1,0 +1,46 @@
+/* =========================================================
+   CLICK FEEDBACK: scale-down + ripple
+   Shared across index.html, login.html, and become-admin.html.
+   Buttons no longer react to hover at all — only to an actual click,
+   via a quick scale-down plus an expanding ripple from the click point.
+========================================================= */
+
+button:active,
+.planCard:active,
+.device-chip:active,
+.social-icons a:active {
+    transform: scale(0.96);
+}
+
+/* Injected by assets/js/ripple.js at the exact click coordinates. */
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.45);
+    transform: scale(0);
+    opacity: 1;
+
+    pointer-events: none;
+    animation: rippleAnim 0.5s ease-out forwards;
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    button:active,
+    .planCard:active,
+    .device-chip:active,
+    .social-icons a:active {
+        transform: none;
+    }
+
+    .ripple-effect {
+        display: none;
+    }
+}
