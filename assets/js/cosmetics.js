@@ -29,3 +29,5 @@ window.toggleSidebar = function () {
     sidebar.classList.toggle("open");
     document.body.classList.toggle("menu-open");
 };
+
+//cosmetics.js

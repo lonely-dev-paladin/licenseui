@@ -1291,3 +1291,29 @@ ADMIN CONTEXT
     margin-top: 8px;
     text-align: left;
 }
+
+/* =========================================================
+   DASHBOARD ENTRANCE ANIMATION
+========================================================= */
+/* Plays whenever the dashboard loads — including right after a successful
+   login redirect, which is the main point, but harmless on any load. */
+.app {
+    animation: dashboardEnter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes dashboardEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app {
+        animation: none;
+    }
+}

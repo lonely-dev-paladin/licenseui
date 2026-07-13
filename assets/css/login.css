@@ -414,6 +414,74 @@ a {
 }
 
 /* =========================================================
+   ASSEMBLING ENTRANCE (piece-by-piece, applies to any .loginCard —
+   the main login, superadmin login, and create-admin views all use it,
+   and it replays automatically whenever showView() swaps between them,
+   since toggling display:none -> flex restarts CSS animations)
+========================================================= */
+.loginCard > * {
+    opacity: 0;
+    animation: assemblePiece 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Each piece flies in from a different direction with a slight rotation,
+   staggered by delay, so they visually "assemble" into place rather than
+   all fading in together. */
+.loginCard > *:nth-child(1) { --fx: 0px;    --fy: -50px; --fr: -6deg; animation-delay: 0.05s; }
+.loginCard > *:nth-child(2) { --fx: -60px;  --fy: 0px;   --fr: -4deg; animation-delay: 0.15s; }
+.loginCard > *:nth-child(3) { --fx: 60px;   --fy: 0px;   --fr: 4deg;  animation-delay: 0.25s; }
+.loginCard > *:nth-child(4) { --fx: 0px;    --fy: 30px;  --fr: -3deg; animation-delay: 0.35s; }
+.loginCard > *:nth-child(5) { --fx: -40px;  --fy: 20px;  --fr: 3deg;  animation-delay: 0.45s; }
+.loginCard > *:nth-child(6) { --fx: 40px;   --fy: 20px;  --fr: -2deg; animation-delay: 0.55s; }
+.loginCard > *:nth-child(n+7) { --fx: 0px;  --fy: 20px;  --fr: 0deg;  animation-delay: 0.65s; }
+
+@keyframes assemblePiece {
+    0% {
+        opacity: 0;
+        transform: translate(var(--fx), var(--fy)) rotate(var(--fr)) scale(0.85);
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+}
+
+/* =========================================================
+   LOGIN SUCCESS EXIT (card animates away right before the redirect
+   to index.html, instead of the page just cutting away abruptly)
+========================================================= */
+.login-success-exit {
+    animation: loginSuccessExit 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes loginSuccessExit {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    40% {
+        transform: scale(1.03) translateY(-4px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9) translateY(-24px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loginCard,
+    .loginCard > *,
+    .login-success-exit {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 @media (max-width: 480px) {

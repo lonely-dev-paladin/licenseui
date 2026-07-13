@@ -83,9 +83,17 @@ async function login() {
 
         showMessage("Login successful", "success");
 
+        // Let the success message register for a moment, then play the
+        // card's exit animation, then navigate — instead of a flat pause
+        // followed by an abrupt cut to the dashboard.
+        setTimeout(() => {
+            const card = document.getElementById("loginCard");
+            if (card) card.classList.add("login-success-exit");
+        }, 500);
+
         setTimeout(() => {
             window.location.href = "index.html";
-        }, 2500);
+        }, 1100);
 
     } catch (err) {
         console.error(err);

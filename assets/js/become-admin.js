@@ -157,3 +157,5 @@ document.getElementById("checkStatusBtn").addEventListener("click", async () => 
         resultEl.innerHTML = `<span class="error">Server error — please try again.</span>`;
     }
 });
+
+//become-admin.js
