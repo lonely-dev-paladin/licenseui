@@ -5,6 +5,14 @@
    via a quick scale-down plus an expanding ripple from the click point.
 ========================================================= */
 
+/* Mobile WebKit/Chrome shows its own translucent tap-highlight flash by
+   default on any tappable element — separate from (and visually clashing
+   with) the custom ripple below. This turns that default flash off
+   entirely so only the intentional ripple shows. */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 button:active,
 .planCard:active,
 .device-chip:active,
