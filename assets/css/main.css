@@ -1312,6 +1312,60 @@ ADMIN CONTEXT
     }
 }
 
+/* =========================================================
+   SECTION-SWITCH ASSEMBLING ANIMATION
+========================================================= */
+/* Same trick as the login page's card-switching: showSection() removes
+   .active from every section then adds it to the target, which toggles
+   display:none -> block — and that redisplay is exactly what restarts
+   these CSS animations, every single time a nav item is clicked. */
+.section.active {
+    animation: sectionShellEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sectionShellEnter {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Direct children only (title, table container, action row, etc.) — not
+   every nested table row, so switching to a section with a big table
+   doesn't turn into dozens of individually-staggered rows. Snappier
+   timing than the login page's version since this fires on every single
+   tab click rather than once per session. */
+.section.active > * {
+    opacity: 0;
+    animation: sectionPieceEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section.active > *:nth-child(1) { --fx: 0px;   --fy: -30px; --fr: -4deg; animation-delay: 0.03s; }
+.section.active > *:nth-child(2) { --fx: -40px; --fy: 10px;  --fr: -3deg; animation-delay: 0.10s; }
+.section.active > *:nth-child(3) { --fx: 40px;  --fy: 10px;  --fr: 3deg;  animation-delay: 0.17s; }
+.section.active > *:nth-child(4) { --fx: -30px; --fy: 15px;  --fr: -2deg; animation-delay: 0.24s; }
+.section.active > *:nth-child(5) { --fx: 30px;  --fy: 15px;  --fr: 2deg;  animation-delay: 0.31s; }
+.section.active > *:nth-child(n+6) { --fx: 0px; --fy: 15px;  --fr: 0deg;  animation-delay: 0.38s; }
+
+@keyframes sectionPieceEnter {
+    0% {
+        opacity: 0;
+        transform: translate(var(--fx), var(--fy)) rotate(var(--fr)) scale(0.92);
+    }
+    60% { opacity: 1; }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section.active,
+    .section.active > * {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .app {
         animation: none;
