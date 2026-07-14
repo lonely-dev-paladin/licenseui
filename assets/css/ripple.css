@@ -5,40 +5,12 @@
    via a quick scale-down plus an expanding ripple from the click point.
 ========================================================= */
 
-/* Baked in upfront rather than patched via JS at click-time — guarantees
-   every ripple target already has a positioning context and a clip
-   boundary the moment the page renders, instead of depending on a
-   getComputedStyle() check resolving correctly in the same tick as the
-   click.
-
-   clip-path (not overflow: hidden) is used to contain the ripple to each
-   element's rounded shape — overflow: hidden would also clip the button's
-   own glow box-shadow, cutting off part of the site's existing neon look.
-   clip-path only clips descendants (the ripple), never the element's own
-   box-shadow.
-
-   user-select: none also stops an accidental mouse-drag on desktop from
-   turning into a text-selection instead of a clean click. */
-button,
-.planCard {
-    position: relative;
-    clip-path: inset(0 round 12px);
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-.device-chip {
-    position: relative;
-    clip-path: inset(0 round 8px);
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-.social-icons a {
-    position: relative;
-    clip-path: inset(0 round 50%);
-    user-select: none;
-    -webkit-user-select: none;
+/* Mobile WebKit/Chrome shows its own translucent tap-highlight flash by
+   default on any tappable element — separate from (and visually clashing
+   with) the custom ripple below. This turns that default flash off
+   entirely so only the intentional ripple shows. */
+* {
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:active,
@@ -51,10 +23,9 @@ button:active,
 /* Injected by assets/js/ripple.js at the exact click coordinates. */
 .ripple-effect {
     position: absolute;
-    z-index: 5;
     border-radius: 50%;
 
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.45);
     transform: scale(0);
     opacity: 1;
 

@@ -18,23 +18,18 @@
     });
 
     function spawnRipple(el, event) {
-        // position: relative and overflow: hidden are now baked into
-        // ripple.css directly for every target element, so there's nothing
-        // to check or patch here at click-time — just measure and place.
+        const style = getComputedStyle(el);
+
+        // The ripple is absolutely positioned relative to its nearest
+        // positioned ancestor, so the target element needs position + a
+        // clip boundary matching its own rounded shape.
+        if (style.position === "static") el.style.position = "relative";
+        if (style.overflow === "visible") el.style.overflow = "hidden";
+
         const rect = el.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height) * 1.6;
-
-        // event.detail === 0 reliably means this click came from a keyboard
-        // (Enter/Space on a focused button) rather than an actual mouse
-        // click/tap — in that case clientX/clientY are 0, and since 0 isn't
-        // null/undefined the old "?? fallback" never kicked in, placing the
-        // ripple in the wrong corner instead of centering it.
-        const isPointerClick = event.detail !== 0;
-        const originX = isPointerClick ? event.clientX : rect.left + rect.width / 2;
-        const originY = isPointerClick ? event.clientY : rect.top + rect.height / 2;
-
-        const x = originX - rect.left - size / 2;
-        const y = originY - rect.top - size / 2;
+        const x = (event.clientX ?? rect.left + rect.width / 2) - rect.left - size / 2;
+        const y = (event.clientY ?? rect.top + rect.height / 2) - rect.top - size / 2;
 
         const ripple = document.createElement("span");
         ripple.className = "ripple-effect";
@@ -43,12 +38,6 @@
         ripple.style.top = `${y}px`;
 
         el.appendChild(ripple);
-
-        // Fallback removal in case animationend never fires for any reason
-        // (e.g. the element gets removed/re-rendered mid-animation by a
-        // table refresh) — avoids leaking orphaned ripple spans.
-        const cleanup = () => ripple.remove();
-        ripple.addEventListener("animationend", cleanup);
-        setTimeout(cleanup, 700);
+        ripple.addEventListener("animationend", () => ripple.remove());
     }
 })();
