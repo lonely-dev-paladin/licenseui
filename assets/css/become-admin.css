@@ -6,7 +6,7 @@
     inset: auto;
     min-height: 100vh;
     padding: 40px 20px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .purchaseCard {
@@ -179,11 +179,28 @@ input[type="file"] {
 }
 
 .resultCode {
+    display: inline-block;
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 1px;
     color: #00ffbf;
     margin-bottom: 10px;
+
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 1px dashed rgba(0, 255, 191, 0.35);
+
+    transition: transform 0.12s ease;
+}
+
+.resultCode:active {
+    transform: scale(0.96);
+}
+
+.resultCode.copied {
+    color: #00f7ff;
+    border-color: rgba(0, 247, 255, 0.5);
 }
 
 .resultHint {

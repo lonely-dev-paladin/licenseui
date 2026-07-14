@@ -41,6 +41,52 @@ function readFileAsBase64(file) {
 }
 
 // =========================
+// COPY REFERENCE CODE (tap to copy)
+// =========================
+function copyReferenceCode() {
+    const el = document.getElementById("resultCode");
+    const code = el.innerText.trim();
+    if (!code || code === "—") return;
+
+    const showCopied = () => {
+        const original = el.innerText;
+        el.innerText = "Copied!";
+        el.classList.add("copied");
+        setTimeout(() => {
+            el.innerText = original;
+            el.classList.remove("copied");
+        }, 1200);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(showCopied).catch(() => {
+            fallbackCopyText(code, showCopied);
+        });
+    } else {
+        fallbackCopyText(code, showCopied);
+    }
+}
+
+// Older/stripped-down WebViews may not expose the modern Clipboard API —
+// this manual textarea+execCommand approach works almost everywhere else.
+function fallbackCopyText(text, onSuccess) {
+    try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        onSuccess();
+    } catch (err) {
+        console.error("Copy failed:", err);
+    }
+}
+
+// =========================
 // SUBMIT REQUEST
 // =========================
 document.getElementById("requestForm").addEventListener("submit", async (e) => {
@@ -157,5 +203,3 @@ document.getElementById("checkStatusBtn").addEventListener("click", async () => 
         resultEl.innerHTML = `<span class="error">Server error — please try again.</span>`;
     }
 });
-
-//become-admin.js

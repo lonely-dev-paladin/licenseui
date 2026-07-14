@@ -72,9 +72,9 @@
         <!-- ============ GCASH INFO ============ -->
         <div class="gcashBox">
           <p class="gcashLabel">Send payment via GCash</p>
-          <p class="gcashNumber">0962-6104-650</p>
+          <p class="gcashNumber">0917-XXX-XXXX</p>
           <img
-            src="assets/images/GcashQR.jpg"
+            src="assets/images/gcash-qr.png"
             alt="GCash QR code"
             class="gcashQr"
           />
@@ -140,11 +140,18 @@
         <!-- ============ RESULT (shown after successful submit) ============ -->
         <div id="resultBox" class="resultBox" style="display: none">
           <p class="resultLabel">Your reference code:</p>
-          <p class="resultCode" id="resultCode">—</p>
+          <p
+            class="resultCode"
+            id="resultCode"
+            onclick="copyReferenceCode()"
+            title="Tap to copy"
+          >
+            —
+          </p>
           <p class="resultHint">
-            Save this code — you'll need it to check your approval status. The
-            owner will manually verify your payment before your account is
-            activated.
+            Tap the code above to copy it. Save it — you'll need it to check
+            your approval status. The owner will manually verify your payment
+            before your account is activated.
           </p>
         </div>
 
@@ -162,10 +169,10 @@
         <div id="statusResult"></div>
 
         <p style="margin-top: 16px">
-          <a href="/login" class="backToLoginLink">← Back to Login</a>
+          <a href="login.html" class="backToLoginLink">← Back to Login</a>
         </p>
 
-        <div class="copyright">© 2026 Engine. All rights reserved.</div>
+        <div class="copyright">© 2026 Authra. All rights reserved.</div>
       </div>
     </div>
 
