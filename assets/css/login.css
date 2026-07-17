@@ -33,7 +33,7 @@ a {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    overflow: hidden;
+    overflow-y: auto;
 
     background:
         radial-gradient(circle at top left, rgba(255, 0, 140, 0.18), transparent 30%),
