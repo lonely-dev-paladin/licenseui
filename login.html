@@ -59,7 +59,11 @@
 
           <p style="margin-top: 8px; font-size: 12px; color: #aaa">
             Don't have an account?
-            <a href="/become-admin">Become an admin</a>
+            <a href="become-admin.html">Become an admin</a>
+          </p>
+
+          <p style="margin-top: 8px; font-size: 12px; color: #aaa">
+            <a href="#" id="openForgotPassword">Forgot password?</a>
           </p>
 
           <div class="copyright">© 2026 Authra. All rights reserved.</div>
@@ -137,7 +141,7 @@
               <li>
                 Companion Android app with offline grace period,
                 English/Tagalog/Cebuano language support, light/dark themes, and
-                mini-games (used only for testing)
+                mini-games
               </li>
             </ul>
           </div>
@@ -149,6 +153,7 @@
               <span class="techPill">PostgreSQL</span>
               <span class="techPill">Supabase</span>
               <span class="techPill">Render</span>
+              <span class="techPill">Redis (optional)</span>
               <span class="techPill">HTML / CSS / JS</span>
               <span class="techPill">AndLua+ (Android)</span>
             </div>
@@ -200,6 +205,77 @@
         </div>
 
         <p id="createMsg"></p>
+      </div>
+    </div>
+
+    <!-- =========================
+     FORGOT PASSWORD VIEW
+========================= -->
+    <div id="forgotPasswordView" class="loginPage" style="display: none">
+      <div class="loginCard">
+        <h2>Forgot Password</h2>
+
+        <p
+          style="
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 4px;
+            text-align: center;
+          "
+        >
+          Enter your username to request a reset. A superadmin will manually
+          verify it's you and relay your new password out-of-band — the same way
+          payments get confirmed.
+        </p>
+
+        <input id="resetUsername" type="text" placeholder="Username" />
+        <button id="submitResetBtn">Request Reset</button>
+
+        <p id="resetRequestMsg"></p>
+
+        <div id="resetResultBox" class="resultBox" style="display: none">
+          <p class="resultLabel">Your reference code:</p>
+          <p
+            class="resultCode"
+            id="resetResultCode"
+            onclick="copyResetCode()"
+            title="Tap to copy"
+          >
+            —
+          </p>
+          <p class="resultHint">
+            Tap the code to copy it. Save it — you'll need it below to check
+            your status.
+          </p>
+        </div>
+
+        <hr class="divider" />
+
+        <p
+          style="
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 4px;
+            text-align: center;
+          "
+        >
+          Already have a reference code?
+        </p>
+        <input
+          id="resetStatusRefCode"
+          type="text"
+          placeholder="e.g. PWR-9F3A1C"
+        />
+        <button id="checkResetStatusBtn" class="textButton statusCheckBtn">
+          Check Status
+        </button>
+        <div id="resetStatusResult"></div>
+
+        <div class="buttonGroup">
+          <button class="textButton" id="backToLoginFromReset">
+            Back to Login
+          </button>
+        </div>
       </div>
     </div>
 

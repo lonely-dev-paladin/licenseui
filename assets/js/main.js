@@ -12,7 +12,7 @@ let isHandlingTermination = false;  // guards against showing the popup twice
 // ADD KEY
 // =========================
 if (!localStorage.getItem("token")) {
-    window.location.href = "/login";
+    window.location.href = "login.html";
 }
 
 async function addKey() {
@@ -299,6 +299,121 @@ async function terminateAdmin(id, username, role, keyCount, logCount) {
 }
 
 // =========================
+// PASSWORD RESET REQUESTS (superadmin only)
+// =========================
+async function loadPasswordResets() {
+    if (!localStorage.getItem("token")) return;
+
+    const res = await getPasswordResetsAPI("pending");
+    const data = await res.json();
+
+    renderPasswordResets(data);
+}
+
+async function approvePasswordReset(id, username) {
+    const confirmed = await showConfirm(
+        `Approve password reset for "${username}"? A new password will be generated.`
+    );
+    if (!confirmed) return;
+
+    const res = await approvePasswordResetAPI(id);
+    const data = await res.json();
+
+    if (!res.ok) {
+        showMessage(data.error || "Something went wrong", "error");
+        return;
+    }
+
+    // Show the new password once, in its own modal — it's never retrievable
+    // again after this, since the backend never exposes it through any
+    // other endpoint.
+    await showNewPassword(data.username, data.new_password);
+
+    loadPasswordResets();
+}
+
+async function rejectPasswordReset(id, username) {
+    const reason = await showPrompt(`Reject password reset for "${username}"? Please state the reason of rejection.`);
+    if (reason === null) return; // cancelled
+
+    const res = await rejectPasswordResetAPI(id, reason);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    loadPasswordResets();
+}
+
+function showNewPassword(username, password) {
+    const overlay = document.getElementById("new-password-overlay");
+    const text = document.getElementById("new-password-text");
+    const codeEl = document.getElementById("new-password-code");
+    const closeBtn = document.getElementById("new-password-close");
+
+    if (!overlay) {
+        alert(`New password for ${username}: ${password}`);
+        return Promise.resolve();
+    }
+
+    text.innerText = `New password for "${username}":`;
+    codeEl.innerText = password;
+    overlay.hidden = false;
+    requestAnimationFrame(() => overlay.classList.add("show"));
+
+    return new Promise(resolve => {
+        function cleanup() {
+            overlay.classList.remove("show");
+            setTimeout(() => { overlay.hidden = true; }, 200);
+            closeBtn.removeEventListener("click", onClose);
+            resolve();
+        }
+        function onClose() { cleanup(); }
+
+        closeBtn.addEventListener("click", onClose);
+    });
+}
+
+// Tap-to-copy for the newly generated password (same pattern used elsewhere)
+function copyNewPassword() {
+    const el = document.getElementById("new-password-code");
+    const password = el.innerText.trim();
+    if (!password || password === "—") return;
+
+    const showCopied = () => {
+        const original = el.innerText;
+        el.innerText = "Copied!";
+        el.classList.add("copied");
+        setTimeout(() => {
+            el.innerText = original;
+            el.classList.remove("copied");
+        }, 1200);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(password).then(showCopied).catch(() => fallbackCopyPassword(password, showCopied));
+    } else {
+        fallbackCopyPassword(password, showCopied);
+    }
+}
+
+function fallbackCopyPassword(text, onSuccess) {
+    try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        onSuccess();
+    } catch (err) {
+        console.error("Copy failed:", err);
+    }
+}
+
+// =========================
 // ADMIN CONTEXT
 // =========================
 async function loadAdminContext() {
@@ -322,6 +437,9 @@ async function loadAdminContext() {
 
         const adminsNav = document.getElementById("adminsNav");
         if (adminsNav) adminsNav.style.display = "";
+
+        const passwordResetsNav = document.getElementById("passwordResetsNav");
+        if (passwordResetsNav) passwordResetsNav.style.display = "";
     }
 }
 
@@ -340,7 +458,7 @@ async function logout() {
 
     stopSessionHeartbeat();
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "login.html";
 }
 
 // =========================
@@ -359,7 +477,7 @@ async function forceLogoutTerminated(message) {
     await showAlert(message || "You have been terminated by the owner.");
 
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "login.html";
 }
 
 // Periodically re-checks that this session is still valid even if the
@@ -413,6 +531,10 @@ window.approveRequest = approveRequest;
 window.rejectRequest = rejectRequest;
 window.loadAdmins = loadAdmins;
 window.terminateAdmin = terminateAdmin;
+window.loadPasswordResets = loadPasswordResets;
+window.approvePasswordReset = approvePasswordReset;
+window.rejectPasswordReset = rejectPasswordReset;
+window.copyNewPassword = copyNewPassword;
 
 window.logout = logout;
 window.forceLogoutTerminated = forceLogoutTerminated;

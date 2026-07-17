@@ -16,7 +16,7 @@ async function safeFetch(url, options) {
 
     if (res.status === 401) {
         localStorage.removeItem("token");
-        window.location.href = "/login";
+        window.location.href = "login.html";
         return null;
     }
 
@@ -130,6 +130,26 @@ async function terminateAdminAPI(id) {
     return safeFetch(API + `/admins/${id}`, {
         method: "DELETE",
         headers: headers()
+    });
+}
+
+// ===== PASSWORD RESET REQUESTS (superadmin review queue) =====
+async function getPasswordResetsAPI(status = "pending") {
+    return safeFetch(API + `/password-reset-requests?status=${status}`, { headers: headers() });
+}
+
+async function approvePasswordResetAPI(id) {
+    return safeFetch(API + `/password-reset-requests/${id}/approve`, {
+        method: "POST",
+        headers: headers()
+    });
+}
+
+async function rejectPasswordResetAPI(id, reason) {
+    return safeFetch(API + `/password-reset-requests/${id}/reject`, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ reason: reason || "" })
     });
 }
 

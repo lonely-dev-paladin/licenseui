@@ -957,7 +957,8 @@ ADMIN CONTEXT
 #multi_users_table,
 #audit_table,
 #requests_table,
-#admins_table {
+#admins_table,
+#password_resets_table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -968,7 +969,8 @@ ADMIN CONTEXT
 #multi_users_table table,
 #audit_table table,
 #requests_table table,
-#admins_table table {
+#admins_table table,
+#password_resets_table table {
     min-width: 600px;
 }
 
@@ -979,7 +981,8 @@ ADMIN CONTEXT
     #multi_users_table,
     #audit_table,
     #requests_table,
-    #admins_table {
+    #admins_table,
+    #password_resets_table {
         scrollbar-width: none;      /* Firefox */
         -ms-overflow-style: none;   /* old Edge/IE */
     }
@@ -988,7 +991,8 @@ ADMIN CONTEXT
     #multi_users_table::-webkit-scrollbar,
     #audit_table::-webkit-scrollbar,
     #requests_table::-webkit-scrollbar,
-    #admins_table::-webkit-scrollbar {
+    #admins_table::-webkit-scrollbar,
+    #password_resets_table::-webkit-scrollbar {
         display: none;              /* Chrome/Safari/AndLua+ WebViews */
     }
 }
@@ -1232,6 +1236,34 @@ ADMIN CONTEXT
     font-size: 12px;
     margin-top: 8px;
     text-align: left;
+}
+
+/* =========================================================
+   NEW PASSWORD REVEALED MODAL (Password Resets)
+========================================================= */
+.resultCode {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #00ffbf;
+    margin: 12px 0;
+
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px dashed rgba(0, 255, 191, 0.35);
+
+    transition: transform 0.12s ease;
+}
+
+.resultCode:active {
+    transform: scale(0.96);
+}
+
+.resultCode.copied {
+    color: #00f7ff;
+    border-color: rgba(0, 247, 255, 0.5);
 }
 
 /* =========================================================

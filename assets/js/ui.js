@@ -546,4 +546,50 @@ function renderAdmins(data) {
     container.innerHTML = html;
 }
 
+// =========================
+// PASSWORD RESET REQUESTS UI
+// =========================
+function renderPasswordResets(data) {
+    const container = document.getElementById("password_resets_table");
+    if (!container) return;
+
+    if (!data.requests || !data.requests.length) {
+        container.innerHTML =
+            "<p style='color:var(--text-color); opacity:0.6;'>No pending password reset requests.</p>";
+        return;
+    }
+
+    let html = `
+        <table>
+        <tr>
+            <th>Reference Code</th>
+            <th>Username</th>
+            <th>Requested</th>
+            <th>Actions</th>
+        </tr>
+    `;
+
+    data.requests.forEach(r => {
+        const when = new Date(r.created_at).toLocaleString();
+        const safeUsername = r.username.replace(/'/g, "\\'");
+
+        html += `
+        <tr>
+            <td>${r.reference_code}</td>
+            <td>${r.username}</td>
+            <td>${when}</td>
+            <td>
+                <div class="request-actions">
+                    <button class="btn-primary" onclick="approvePasswordReset(${r.id}, '${safeUsername}')">Approve</button>
+                    <button class="btn-danger" onclick="rejectPasswordReset(${r.id}, '${safeUsername}')">Reject</button>
+                </div>
+            </td>
+        </tr>
+        `;
+    });
+
+    html += `</table>`;
+    container.innerHTML = html;
+}
+
 //ui.js

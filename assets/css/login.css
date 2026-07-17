@@ -600,6 +600,76 @@ a {
 }
 
 /* =========================================================
+   FORGOT PASSWORD: RESULT BOX + STATUS CHECK
+   (same visual language as become-admin.html's own copy, kept
+   local to login.css since login.html doesn't load become-admin.css)
+========================================================= */
+.resultBox {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+
+    background: rgba(0, 255, 191, 0.06);
+    border: 1px solid rgba(0, 255, 191, 0.3);
+}
+
+.resultLabel {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.resultCode {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #00ffbf;
+    margin-bottom: 10px;
+
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 1px dashed rgba(0, 255, 191, 0.35);
+
+    transition: transform 0.12s ease;
+}
+
+.resultCode:active {
+    transform: scale(0.96);
+}
+
+.resultCode.copied {
+    color: #00f7ff;
+    border-color: rgba(0, 247, 255, 0.5);
+}
+
+.resultHint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.5;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 20px 0 14px;
+}
+
+.statusCheckBtn {
+    margin-top: 10px;
+    border: 1px solid rgba(0, 247, 255, 0.2);
+}
+
+#resetStatusResult {
+    margin-top: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 @media (max-width: 480px) {

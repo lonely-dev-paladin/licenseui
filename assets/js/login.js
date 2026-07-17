@@ -23,7 +23,7 @@ function parseJwt(token) {
 // VIEW SWITCHING
 // =========================
 function showView(viewId) {
-    const views = ["loginView", "superadminLoginView", "createAdminView"];
+    const views = ["loginView", "superadminLoginView", "createAdminView", "forgotPasswordView"];
     views.forEach(v => {
         const el = document.getElementById(v);
         if (el) el.style.display = "none";
@@ -92,7 +92,7 @@ async function login() {
         }, 500);
 
         setTimeout(() => {
-            window.location.href = "/";
+            window.location.href = "index.html";
         }, 1100);
 
     } catch (err) {
@@ -252,5 +252,122 @@ document.getElementById("logoutSuperadmin")?.addEventListener("click", e => {
 
     showView("loginView");
 });
+
+// =========================
+// FORGOT PASSWORD
+// =========================
+document.getElementById("openForgotPassword")?.addEventListener("click", e => {
+    e.preventDefault();
+    showView("forgotPasswordView");
+});
+
+document.getElementById("backToLoginFromReset")?.addEventListener("click", e => {
+    e.preventDefault();
+    showView("loginView");
+});
+
+document.getElementById("submitResetBtn")?.addEventListener("click", async () => {
+    const username = document.getElementById("resetUsername").value.trim();
+    const msgEl = document.getElementById("resetRequestMsg");
+
+    if (!username) {
+        setMsg(msgEl, "Enter your username first", "error");
+        return;
+    }
+
+    try {
+        const res = await fetch(API + "/password-reset-requests", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username })
+        });
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok || !data) {
+            setMsg(msgEl, data?.error || "Something went wrong", "error");
+            return;
+        }
+
+        setMsg(msgEl, "", "success");
+        document.getElementById("resetResultBox").style.display = "block";
+        document.getElementById("resetResultCode").innerText = data.reference_code;
+        document.getElementById("resetUsername").value = "";
+
+    } catch (err) {
+        console.error(err);
+        setMsg(msgEl, "Server error — please try again", "error");
+    }
+});
+
+document.getElementById("checkResetStatusBtn")?.addEventListener("click", async () => {
+    const code = document.getElementById("resetStatusRefCode").value.trim();
+    const resultEl = document.getElementById("resetStatusResult");
+
+    if (!code) {
+        resultEl.innerHTML = `<span class="error">Enter a reference code first.</span>`;
+        return;
+    }
+
+    resultEl.innerHTML = "Checking...";
+
+    try {
+        const res = await fetch(API + `/password-reset-requests/status?reference_code=${encodeURIComponent(code)}`);
+        const data = await res.json();
+
+        if (data.status === "not found") {
+            resultEl.innerHTML = `<span class="error">No request found with that code.</span>`;
+        } else if (data.status === "pending") {
+            resultEl.innerHTML = `<span style="color:#ffb347;">⏳ Still pending review.</span>`;
+        } else if (data.status === "approved") {
+            resultEl.innerHTML = `<span class="success">✔ Approved! Contact the owner to receive your new password.</span>`;
+        } else if (data.status === "rejected") {
+            const reason = data.rejection_reason ? ` (${data.rejection_reason})` : "";
+            resultEl.innerHTML = `<span class="error">✘ Rejected${reason}</span>`;
+        }
+    } catch (err) {
+        console.error(err);
+        resultEl.innerHTML = `<span class="error">Server error — please try again.</span>`;
+    }
+});
+
+// Tap-to-copy for the reset reference code (same pattern as become-admin.js)
+function copyResetCode() {
+    const el = document.getElementById("resetResultCode");
+    const code = el.innerText.trim();
+    if (!code || code === "—") return;
+
+    const showCopied = () => {
+        const original = el.innerText;
+        el.innerText = "Copied!";
+        el.classList.add("copied");
+        setTimeout(() => {
+            el.innerText = original;
+            el.classList.remove("copied");
+        }, 1200);
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(showCopied).catch(() => fallbackCopyResetCode(code, showCopied));
+    } else {
+        fallbackCopyResetCode(code, showCopied);
+    }
+}
+
+function fallbackCopyResetCode(text, onSuccess) {
+    try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        onSuccess();
+    } catch (err) {
+        console.error("Copy failed:", err);
+    }
+}
 
 //login.js
