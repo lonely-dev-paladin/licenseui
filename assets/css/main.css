@@ -6,6 +6,13 @@
     font-family: "poppins", sans-serif;
 }
 
+.main {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+}
+
 :root {
     --bg-color: #04030a;
     --second-bg-color: #0b0814;
@@ -51,7 +58,8 @@ body {
 ========================================================= */
 .app {
     display: flex;
-    min-height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
 }
 
 /* =========================================================
@@ -1141,8 +1149,9 @@ ADMIN CONTEXT
 
 .confirm-card {
     position: relative;
-    width: 100%;
-    max-width: 360px;
+    width: fit-content;
+    min-width: 320px;
+    max-width: min(360px, 90vw);
     padding: 26px;
     border-radius: 16px;
 
@@ -1203,11 +1212,12 @@ ADMIN CONTEXT
 }
 
 .screenshot-card img {
+    display: block;
+    margin: 0 auto 14px auto;
+
     max-width: 100%;
     max-height: 70vh;
     border-radius: 10px;
-    margin-bottom: 14px;
-    display: block;
 }
 
 .request-actions {
