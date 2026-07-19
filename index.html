@@ -161,6 +161,16 @@
               <div class="card">
                 <h3>Generate Key</h3>
 
+                <div class="select-wrap">
+                  <select id="key_type">
+                    <option value="default">Default (Random)</option>
+                    <option value="CODM">CODM-XXXX...</option>
+                    <option value="MLBB">MLBB-XXXX...</option>
+                    <option value="BS">BS-XXXX...</option>
+                    <option value="CF">CF-XXXX...</option>
+                  </select>
+                </div>
+
                 <div class="input-wrap">
                   <input id="add_key" placeholder="Generate or enter key" />
                   <span class="clear-icon" onclick="clearInput('add_key')"

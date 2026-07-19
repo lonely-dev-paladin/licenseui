@@ -40,10 +40,27 @@ async function addKey() {
 // =========================
 // KEY GENERATOR
 // =========================
+// Prefix map for the Generate Key card's key-type dropdown. "default" keeps
+// the original plain random format (no prefix) exactly as before; every
+// other type just prepends its own tag onto the same random suffix logic.
+const KEY_TYPE_PREFIXES = {
+    default: "",
+    CODM: "CODM-",
+    MLBB: "MLBB-",
+    BS: "BS-",
+    CF: "CF-"
+};
+
 // Produces exactly 10 characters total (dash included), e.g. "XXXXX-XXXX",
-// matching the backend's minimum license key length.
+// matching the backend's minimum license key length — plus an optional
+// type prefix (e.g. "CODM-") selected via the #key_type dropdown.
 function generateKey() {
+    const typeSelect = document.getElementById("key_type");
+    const type = typeSelect ? typeSelect.value : "default";
+    const prefix = KEY_TYPE_PREFIXES[type] || "";
+
     const key =
+        prefix +
         Math.random().toString(36).substring(2, 7).toUpperCase() + "-" +
         Math.random().toString(36).substring(2, 6).toUpperCase();
 
