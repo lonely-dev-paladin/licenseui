@@ -203,3 +203,17 @@ document.getElementById("checkStatusBtn").addEventListener("click", async () => 
         resultEl.innerHTML = `<span class="error">Server error — please try again.</span>`;
     }
 });
+
+// =========================
+// ENTER-KEY-TO-SUBMIT WIRING
+// =========================
+// #requestForm is already a real <form> (submit listener above), so all of
+// its fields (username, password, confirm, gcash ref) already submit on
+// Enter natively. #statusRefCode below is a standalone input next to a
+// plain button (not inside a <form>), so it needs its own explicit wiring.
+document.getElementById("statusRefCode")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("checkStatusBtn").click();
+    }
+});

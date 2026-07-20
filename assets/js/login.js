@@ -57,6 +57,27 @@ function setErrorGlow() {
 }
 
 // =========================
+// ENTER-KEY-TO-SUBMIT HELPER
+// =========================
+// Several views on this page (superadmin login, create admin, forgot
+// password, reset-status check) are plain inputs + a button with only an
+// onclick handler — not a real <form> — so pressing Enter did nothing by
+// default. This wires Enter in a given field to trigger the same button's
+// click handler, without needing to restructure the markup into <form>s.
+function onEnterClick(inputId, buttonId) {
+    const input = document.getElementById(inputId);
+    const button = document.getElementById(buttonId);
+    if (!input || !button) return;
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            button.click();
+        }
+    });
+}
+
+// =========================
 // LOGIN
 // =========================
 async function login() {
@@ -369,5 +390,22 @@ function fallbackCopyResetCode(text, onSuccess) {
         console.error("Copy failed:", err);
     }
 }
+
+// =========================
+// ENTER-KEY-TO-SUBMIT WIRING
+// =========================
+// #loginForm is already a real <form> (handled above via its own submit
+// listener), so it already submits on Enter. Everything below is NOT a
+// <form> in the markup, so each needs its own explicit wiring.
+document.addEventListener("DOMContentLoaded", () => {
+    onEnterClick("saUsername", "superadminLoginBtn");
+    onEnterClick("saPassword", "superadminLoginBtn");
+
+    onEnterClick("newAdminUser", "createAdminBtn");
+    onEnterClick("newAdminPass", "createAdminBtn");
+
+    onEnterClick("resetUsername", "submitResetBtn");
+    onEnterClick("resetStatusRefCode", "checkResetStatusBtn");
+});
 
 //login.js

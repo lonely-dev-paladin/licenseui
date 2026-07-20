@@ -180,7 +180,7 @@ async function del() {
     if (!key) return showMessage("License key is required", "error");
 
     const confirmed = await showConfirm(
-        `Delete "${key}" permanently?`
+        `Delete "${key}" permanently? This cannot be undone.`
     );
     if (!confirmed) return;
 
@@ -230,7 +230,7 @@ async function loadAuditLog() {
 
 async function clearAuditLog() {
     const confirmed = await showConfirm(
-        "Clear your entire audit log?"
+        "Clear your entire audit log? This cannot be undone."
     );
     if (!confirmed) return;
 
@@ -576,6 +576,48 @@ window.stopSessionHeartbeat = stopSessionHeartbeat;
 document.addEventListener("DOMContentLoaded", () => {
     loadAdminContext(); //load admin context as you can see
     startSessionHeartbeat();
+});
+
+// =========================
+// ENTER-KEY-TO-SUBMIT WIRING
+// =========================
+// None of the License Management cards are real <form> elements — each is
+// just inputs next to a button with an onclick — so Enter did nothing in
+// any of them by default. This wires Enter in a given field to trigger the
+// same action its card's button already performs.
+//
+// Ban / Unban Key is deliberately left unwired: that field has two opposite
+// actions (Ban vs. Unban) and neither has a confirmation step, so picking
+// one to fire on a stray Enter risks an unintended ban/unban. Wire it
+// explicitly (e.g. to ban()) if you'd like a default here.
+function onEnterAction(inputId, handler) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handler();
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Generate Key card -> "Send to Database"
+    onEnterAction("add_key", addKey);
+    onEnterAction("add_days", addKey);
+    onEnterAction("add_max_devices", addKey);
+
+    // Extend Key card
+    onEnterAction("ext_key", extend);
+    onEnterAction("ext_days", extend);
+
+    // Reset Device card
+    onEnterAction("reset_key", resetDevice);
+    onEnterAction("reset_device_id", resetDevice);
+
+    // Delete Key card (already protected by its own showConfirm() modal)
+    onEnterAction("del_key", del);
 });
 
 // main.js
