@@ -51,18 +51,33 @@ const KEY_TYPE_PREFIXES = {
     CF: "CF-"
 };
 
-// Produces exactly 10 characters total (dash included), e.g. "XXXXX-XXXX",
-// matching the backend's minimum license key length — plus an optional
-// type prefix (e.g. "CODM-") selected via the #key_type dropdown.
+// Generates a random N-digit numeric string, e.g. genDigits(4) -> "9898".
+// Zero-padded so it's always exactly `length` digits (e.g. never "098" for 4).
+function genDigits(length) {
+    let out = "";
+    for (let i = 0; i < length; i++) {
+        out += Math.floor(Math.random() * 10);
+    }
+    return out;
+}
+
+// Default keeps the exact original format (unchanged): "XXXXX-XXXX" from
+// base-36 random characters, matching the backend's minimum license key
+// length. Every prefixed type (CODM/MLBB/BS/CF) instead gets a short,
+// clean 4-digit numeric suffix, e.g. "CODM-9898", "BS-9090", "CF-9879".
 function generateKey() {
     const typeSelect = document.getElementById("key_type");
     const type = typeSelect ? typeSelect.value : "default";
     const prefix = KEY_TYPE_PREFIXES[type] || "";
 
-    const key =
-        prefix +
-        Math.random().toString(36).substring(2, 7).toUpperCase() + "-" +
-        Math.random().toString(36).substring(2, 6).toUpperCase();
+    let key;
+    if (type === "default") {
+        key =
+            Math.random().toString(36).substring(2, 7).toUpperCase() + "-" +
+            Math.random().toString(36).substring(2, 6).toUpperCase();
+    } else {
+        key = prefix + genDigits(4);
+    }
 
     set("add_key", key);
 }
@@ -165,7 +180,7 @@ async function del() {
     if (!key) return showMessage("License key is required", "error");
 
     const confirmed = await showConfirm(
-        `Delete "${key}" permanently? This cannot be undone.`
+        `Delete "${key}" permanently?`
     );
     if (!confirmed) return;
 
@@ -215,7 +230,7 @@ async function loadAuditLog() {
 
 async function clearAuditLog() {
     const confirmed = await showConfirm(
-        "Clear your entire audit log? This cannot be undone."
+        "Clear your entire audit log?"
     );
     if (!confirmed) return;
 
