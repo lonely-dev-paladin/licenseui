@@ -326,6 +326,62 @@ a {
 }
 
 /* =========================================================
+   PASSWORD VISIBILITY TOGGLE (eye icon)
+========================================================= */
+/* Wraps every input[type="password"] via assets/js/password-toggle.js.
+   .loginCard input's own margin-top/border/background rules above still
+   apply to the input itself as normal — this just adds room for the icon
+   and positions it inside the field. */
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 42px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    /* Input has margin-top: 12px, so nudge the icon down to stay centered
+       on the input itself rather than the wrapper's full box. */
+    transform: translateY(calc(-50% + 6px));
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 22px;
+    height: 22px;
+
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    user-select: none;
+
+    border-radius: 6px;
+
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--cyan);
+    background: rgba(0, 247, 255, 0.08);
+}
+
+.password-toggle:focus-visible {
+    color: var(--cyan);
+    outline: 2px solid rgba(0, 247, 255, 0.4);
+    outline-offset: 1px;
+}
+
+.password-toggle svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+/* =========================================================
    BUTTONS
 ========================================================= */
 .loginCard button {
