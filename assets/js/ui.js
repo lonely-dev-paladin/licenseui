@@ -134,11 +134,11 @@ function buildUsersTable(users, isMulti) {
     return html;
 }
 
-// Renders each bound device as a small clickable chip. Clicking one
-// auto-fills the Reset Device form with that exact license + device id,
-// since Reset Device needs the device id typed in manually otherwise.
-// showCount is only true for the multi-device table — a 1/1 count on a
-// single-device license doesn't tell the admin anything useful.
+// Renders each bound device as a small chip with its own copy icon
+// (same pattern as the license key's copy icon), so the device ID can be
+// grabbed with one click without navigating anywhere else. showCount is
+// only true for the multi-device table — a 1/1 count on a single-device
+// license doesn't tell the admin anything useful.
 function renderDeviceChips(u, showCount) {
     if (!u.devices || !u.devices.length) {
         const countSuffix = showCount ? ` (0/${u.max_devices})` : "";
@@ -146,9 +146,10 @@ function renderDeviceChips(u, showCount) {
     }
 
     const chips = u.devices.map(d => `
-        <span class="device-chip"
-              title="Click to load into Reset Device form"
-              onclick="useDeviceForReset('${u.license_key}', '${d}')">${d}</span>
+        <span class="device-chip" title="${d}">
+            <span class="device-chip-text">${d}</span>
+            <span class="device-copy-icon" onclick="copyKey('${d}')" title="Copy device ID">&#10064;</span>
+        </span>
     `).join("");
 
     const countLabel = showCount
