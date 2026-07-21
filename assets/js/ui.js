@@ -108,18 +108,22 @@ function buildUsersTable(users, isMulti) {
             <th>${isMulti ? "Devices Connected" : "Device Connected"}</th>
             <th>Status</th>
             <th>Banned</th>
+            <th>Created</th>
             <th>Time Left</th>
             <th>State</th>
         </tr>
     `;
 
     users.forEach(u => {
+        const created = u.created_at ? new Date(u.created_at).toLocaleString() : "—";
+
         html += `
         <tr>
             <td class="key-cell"> ${u.license_key}<span class="copy-icon" onClick="copyKey('${u.license_key}')"> &#10064; </span></td>
             <td>${renderDeviceChips(u, isMulti)}</td>
             <td>${statusBadge(u.status)}</td>
             <td>${statusBadge(u.banned)}</td>
+            <td>${created}</td>
             <td>${u.time_left}</td>
             <td>${statusBadge(u.state)}</td>
         </tr>
@@ -188,6 +192,51 @@ function renderAuditLog(data) {
             <td><span class="badge badge-neutral"><span class="badge-dot"></span>${e.action}</span></td>
             <td>${e.target || "—"}</td>
             <td>${e.details || "—"}</td>
+        </tr>
+        `;
+    });
+
+    html += `</table>`;
+    container.innerHTML = html;
+}
+
+// =========================
+// BLOCKED DEVICES UI
+// =========================
+function renderBlockedDevices(data) {
+    const container = document.getElementById("blocked_devices_table");
+    if (!container) return;
+
+    if (!data.devices || !data.devices.length) {
+        container.innerHTML =
+            "<p style='color:var(--text-color); opacity:0.6;'>No blocked devices.</p>";
+        return;
+    }
+
+    let html = `
+        <table>
+        <tr>
+            <th>Device ID</th>
+            <th>Reason</th>
+            <th>Blocked At</th>
+            <th>Actions</th>
+        </tr>
+    `;
+
+    data.devices.forEach(d => {
+        const when = new Date(d.blocked_at).toLocaleString();
+        const safeDeviceId = d.device_id.replace(/'/g, "\\'");
+
+        html += `
+        <tr>
+            <td>${d.device_id}</td>
+            <td>${d.reason || "—"}</td>
+            <td>${when}</td>
+            <td>
+                <div class="request-actions">
+                    <button class="btn-primary" onclick="unblockDevice('${safeDeviceId}')">Unblock</button>
+                </div>
+            </td>
         </tr>
         `;
     });

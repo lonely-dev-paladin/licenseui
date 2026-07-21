@@ -49,6 +49,7 @@
           <li onclick="showSection('keys')">LICENSE KEYS</li>
           <li onclick="showSection('users')">USERS</li>
           <li onclick="showSection('audit')">AUDIT LOG</li>
+          <li onclick="showSection('blocked-devices')">BLOCKED DEVICES</li>
           <li
             id="pendingRequestsNav"
             onclick="showSection('requests')"
@@ -163,11 +164,11 @@
 
                 <div class="select-wrap">
                   <select id="key_type">
-                    <option value="default">Default</option>
-                    <option value="CODM">CODM</option>
-                    <option value="MLBB">MLBB</option>
-                    <option value="BS">BS</option>
-                    <option value="CF">CF</option>
+                    <option value="default">Default (Random)</option>
+                    <option value="CODM">CODM-XXXX...</option>
+                    <option value="MLBB">MLBB-XXXX...</option>
+                    <option value="BS">BS-XXXX...</option>
+                    <option value="CF">CF-XXXX...</option>
                   </select>
                 </div>
 
@@ -273,6 +274,42 @@
                 </button>
               </div>
 
+              <!-- BLOCK / UNBLOCK DEVICE -->
+              <div class="card">
+                <h3>Block / Unblock Device</h3>
+                <div class="input-wrap">
+                  <input id="block_key" placeholder="License Key" />
+                  <span class="clear-icon" onclick="clearInput('block_key')"
+                    >✕</span
+                  >
+                </div>
+                <div class="input-wrap">
+                  <input id="block_device_id" placeholder="Device ID" />
+                  <span
+                    class="clear-icon"
+                    onclick="clearInput('block_device_id')"
+                    >✕</span
+                  >
+                </div>
+                <div class="input-wrap">
+                  <input
+                    id="block_reason"
+                    placeholder="Reason (optional)"
+                  />
+                  <span
+                    class="clear-icon"
+                    onclick="clearInput('block_reason')"
+                    >✕</span
+                  >
+                </div>
+                <button class="btn-danger" onclick="blockDevice()">
+                  Block Device
+                </button>
+                <button class="btn-primary" onclick="unblockDevice()">
+                  Unblock Device
+                </button>
+              </div>
+
               <!-- DELETE -->
               <div class="card">
                 <h3>Delete Key</h3>
@@ -312,6 +349,17 @@
               Clear Log
             </button>
             <button class="action-btn" onclick="loadAuditLog()">Refresh</button>
+          </div>
+        </section>
+
+        <!-- BLOCKED DEVICES -->
+        <section id="blocked-devices" class="section">
+          <h2>BLOCKED DEVICES</h2>
+          <div id="blocked_devices_table"></div>
+          <div class="actions-row">
+            <button class="action-btn" onclick="loadBlockedDevices()">
+              Refresh
+            </button>
           </div>
         </section>
 

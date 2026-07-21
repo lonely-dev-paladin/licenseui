@@ -100,6 +100,29 @@ async function resetDeviceAPI(key, deviceId) {
     });
 }
 
+// ===== HWID BLOCKLIST (global per-admin) =====
+// Blocks a device across every key this admin owns, and immediately
+// unbinds it from the key it was blocked from if currently bound.
+async function blockDeviceAPI(key, deviceId, reason) {
+    return safeFetch(API + "/block-device", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ license_key: key, device_id: deviceId, reason: reason || undefined })
+    });
+}
+
+async function unblockDeviceAPI(deviceId) {
+    return safeFetch(API + "/unblock-device", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ device_id: deviceId })
+    });
+}
+
+async function getBlockedDevicesAPI() {
+    return safeFetch(API + "/blocked-devices", { headers: headers() });
+}
+
 async function getStatsAPI() {
     return safeFetch(API + "/stats", { headers: headers() });
 }

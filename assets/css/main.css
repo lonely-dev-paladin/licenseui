@@ -1042,7 +1042,8 @@ ADMIN CONTEXT
 #audit_table,
 #requests_table,
 #admins_table,
-#password_resets_table {
+#password_resets_table,
+#blocked_devices_table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -1054,7 +1055,8 @@ ADMIN CONTEXT
 #audit_table table,
 #requests_table table,
 #admins_table table,
-#password_resets_table table {
+#password_resets_table table,
+#blocked_devices_table table {
     min-width: 600px;
 }
 

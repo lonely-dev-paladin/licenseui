@@ -172,6 +172,65 @@ function useDeviceForReset(key, deviceId) {
 }
 
 // =========================
+// BLOCK / UNBLOCK DEVICE (global per-admin HWID blocklist)
+// =========================
+// Unlike Ban (disables the whole key) or Reset Device (just unbinds so any
+// device can rebind), this stops one specific device from reconnecting to
+// ANY of this admin's keys — even a different one, even after a reset.
+async function blockDevice() {
+    const key = get("block_key");
+    const deviceId = get("block_device_id");
+    const reason = get("block_reason");
+
+    if (!key) return showMessage("License key is required", "error");
+    if (!deviceId) return showMessage("Device ID is required", "error");
+
+    const res = await blockDeviceAPI(key, deviceId, reason);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    if (res.ok) {
+        set("block_key", "");
+        set("block_device_id", "");
+        set("block_reason", "");
+    }
+
+    loadUsers();
+    loadBlockedDevices();
+}
+
+// deviceIdArg lets the "Unblock" button in the Blocked Devices table call
+// this directly with a known device id, bypassing the manual-entry field
+// used when unblocking from the License Management card instead.
+async function unblockDevice(deviceIdArg) {
+    const deviceId = deviceIdArg || get("block_device_id");
+
+    if (!deviceId) return showMessage("Device ID is required", "error");
+
+    const confirmed = await showConfirm(`Unblock device "${deviceId}"?`);
+    if (!confirmed) return;
+
+    const res = await unblockDeviceAPI(deviceId);
+    const data = await res.json();
+
+    showMessage(data.message || data.error, res.ok ? "success" : "error");
+
+    if (res.ok && !deviceIdArg) set("block_device_id", "");
+
+    loadBlockedDevices();
+}
+
+async function loadBlockedDevices() {
+    if (!localStorage.getItem("token")) return;
+
+    const res = await getBlockedDevicesAPI();
+    const data = await res.json();
+
+    renderBlockedDevices(data);
+}
+
+// =========================
 // DELETE
 // =========================
 async function del() {
@@ -551,6 +610,9 @@ window.extend = extend;
 window.del = del;
 window.resetDevice = resetDevice;
 window.useDeviceForReset = useDeviceForReset;
+window.blockDevice = blockDevice;
+window.unblockDevice = unblockDevice;
+window.loadBlockedDevices = loadBlockedDevices;
 
 window.loadStats = loadStats;
 window.loadUsers = loadUsers;
