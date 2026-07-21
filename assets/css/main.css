@@ -907,10 +907,6 @@ COPY ICON
     .copy-icon {
         opacity: 0.7;
     }
-
-    .device-copy-icon {
-        opacity: 0.7;
-    }
 }
 
 /* =========================================================
@@ -1094,10 +1090,8 @@ ADMIN CONTEXT
 }
 
 .device-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    max-width: 200px;
+    display: inline-block;
+    max-width: 170px;
 
     padding: 3px 9px;
     border-radius: 8px;
@@ -1109,39 +1103,14 @@ ADMIN CONTEXT
     font-size: 11px;
     font-family: monospace;
 
-    user-select: none;
-
-    transition: 0.2s ease;
-}
-
-.device-chip-text {
-    max-width: 150px;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.device-copy-icon {
-    flex-shrink: 0;
 
     cursor: pointer;
     user-select: none;
 
-    font-size: 11px;
-    color: var(--cyan);
-
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-/* show icon only on hover, same as the license key's .copy-icon */
-.device-chip:hover .device-copy-icon {
-    opacity: 0.7;
-}
-
-.device-copy-icon:hover {
-    opacity: 1;
+    transition: 0.2s ease;
 }
 
 .device-count-label {

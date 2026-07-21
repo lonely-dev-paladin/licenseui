@@ -134,9 +134,9 @@ function buildUsersTable(users, isMulti) {
     return html;
 }
 
-// Renders each bound device as a small chip with its own copy icon
-// (same pattern as the license key's copy icon), so the device ID can be
-// grabbed with one click without navigating anywhere else. showCount is
+// Renders each bound device as a small chip. Tapping/clicking the whole
+// chip copies its device ID — simpler than a separate copy icon,
+// especially on mobile where small tap targets are finicky. showCount is
 // only true for the multi-device table — a 1/1 count on a single-device
 // license doesn't tell the admin anything useful.
 function renderDeviceChips(u, showCount) {
@@ -146,10 +146,7 @@ function renderDeviceChips(u, showCount) {
     }
 
     const chips = u.devices.map(d => `
-        <span class="device-chip" title="${d}">
-            <span class="device-chip-text">${d}</span>
-            <span class="device-copy-icon" onclick="copyKey('${d}')" title="Copy device ID">&#10064;</span>
-        </span>
+        <span class="device-chip" title="Tap to copy" onclick="copyKey('${d}')">${d}</span>
     `).join("");
 
     const countLabel = showCount
