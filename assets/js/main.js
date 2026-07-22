@@ -12,7 +12,7 @@ let isHandlingTermination = false;  // guards against showing the popup twice
 // ADD KEY
 // =========================
 if (!localStorage.getItem("token")) {
-    window.location.href = "login.html";
+    window.location.href = "/login";
 }
 
 async function addKey() {
@@ -537,7 +537,7 @@ async function logout() {
 
     stopSessionHeartbeat();
     localStorage.removeItem("token");
-    window.location.href = "login.html";
+    window.location.href = "/login";
 }
 
 // =========================
@@ -556,7 +556,7 @@ async function forceLogoutTerminated(message) {
     await showAlert(message || "You have been terminated by the owner.");
 
     localStorage.removeItem("token");
-    window.location.href = "login.html";
+    window.location.href = "/login";
 }
 
 // Periodically re-checks that this session is still valid even if the

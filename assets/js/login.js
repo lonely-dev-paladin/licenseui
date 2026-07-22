@@ -113,7 +113,7 @@ async function login() {
         }, 500);
 
         setTimeout(() => {
-            window.location.href = "index.html";
+            window.location.href = "/";
         }, 1100);
 
     } catch (err) {

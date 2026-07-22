@@ -16,7 +16,7 @@ async function safeFetch(url, options) {
 
     if (res.status === 401) {
         localStorage.removeItem("token");
-        window.location.href = "login.html";
+        window.location.href = "/login";
         return null;
     }
 

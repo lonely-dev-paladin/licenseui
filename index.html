@@ -147,9 +147,7 @@
             </div>
 
             <div class="actions-row">
-              <button class="action-btn" onclick="loadStats()">
-                Refresh Stats
-              </button>
+              <button class="action-btn" onclick="loadStats()">Refresh</button>
             </div>
           </section>
 
@@ -164,11 +162,11 @@
 
                 <div class="select-wrap">
                   <select id="key_type">
-                    <option value="default">Default (Random)</option>
-                    <option value="CODM">CODM-XXXX...</option>
-                    <option value="MLBB">MLBB-XXXX...</option>
-                    <option value="BS">BS-XXXX...</option>
-                    <option value="CF">CF-XXXX...</option>
+                    <option value="default">Default</option>
+                    <option value="CODM">Call Of Duty</option>
+                    <option value="MLBB">Mobile Legends</option>
+                    <option value="BS">Blood Strike</option>
+                    <option value="CF">Cross Fire</option>
                   </select>
                 </div>
 
@@ -292,13 +290,8 @@
                   >
                 </div>
                 <div class="input-wrap">
-                  <input
-                    id="block_reason"
-                    placeholder="Reason (optional)"
-                  />
-                  <span
-                    class="clear-icon"
-                    onclick="clearInput('block_reason')"
+                  <input id="block_reason" placeholder="Reason (optional)" />
+                  <span class="clear-icon" onclick="clearInput('block_reason')"
                     >✕</span
                   >
                 </div>
@@ -327,7 +320,7 @@
 
         <!-- USERS -->
         <section id="users" class="section">
-          <h2>ACTIVE LICENSES</h2>
+          <h2>Active Licenses</h2>
 
           <h3 class="subsection-title">Single-Device Licenses</h3>
           <div id="single_users_table"></div>
@@ -342,7 +335,7 @@
 
         <!-- AUDIT LOG -->
         <section id="audit" class="section">
-          <h2>AUDIT LOG</h2>
+          <h2>Audit Log</h2>
           <div id="audit_table"></div>
           <div class="actions-row">
             <button class="action-btn btn-danger" onclick="clearAuditLog()">
@@ -354,7 +347,7 @@
 
         <!-- BLOCKED DEVICES -->
         <section id="blocked-devices" class="section">
-          <h2>BLOCKED DEVICES</h2>
+          <h2>Blocked Devices</h2>
           <div id="blocked_devices_table"></div>
           <div class="actions-row">
             <button class="action-btn" onclick="loadBlockedDevices()">
@@ -365,7 +358,7 @@
 
         <!-- PENDING REQUESTS (superadmin only) -->
         <section id="requests" class="section">
-          <h2>PENDING ADMIN REQUESTS</h2>
+          <h2>Pending Admin Requests</h2>
           <div id="requests_table"></div>
           <div class="actions-row">
             <button class="action-btn" onclick="loadAdminRequests()">
@@ -376,7 +369,7 @@
 
         <!-- ADMINS (superadmin only) -->
         <section id="admins" class="section">
-          <h2>ADMIN ACCOUNTS</h2>
+          <h2>Admin Accounts</h2>
           <div id="admins_table"></div>
           <div class="actions-row">
             <button class="action-btn" onclick="loadAdmins()">Refresh</button>
@@ -385,7 +378,7 @@
 
         <!-- PASSWORD RESETS (superadmin only) -->
         <section id="password-resets" class="section">
-          <h2>PASSWORD RESET REQUESTS</h2>
+          <h2>Password Reset Requests</h2>
           <div id="password_resets_table"></div>
           <div class="actions-row">
             <button class="action-btn" onclick="loadPasswordResets()">
